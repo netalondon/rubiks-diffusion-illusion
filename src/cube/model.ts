@@ -93,8 +93,8 @@ function rotatePosition(position: Vec3, axis: Axis, dir: number): Vec3 {
 
 const ROTATE_MAP_POS: Record<Axis, Partial<Record<Face, Face>>> = {
   x: { U: 'F', F: 'D', D: 'B', B: 'U' },
-  y: { R: 'F', F: 'L', L: 'B', B: 'R' },
-  z: { R: 'D', D: 'L', L: 'U', U: 'R' }
+  y: { R: 'B', B: 'L', L: 'F', F: 'R' },
+  z: { R: 'U', U: 'L', L: 'D', D: 'R' }
 };
 
 const ROTATE_MAP_NEG: Record<Axis, Partial<Record<Face, Face>>> = {
