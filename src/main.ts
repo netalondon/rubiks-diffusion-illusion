@@ -23,7 +23,7 @@ const animator = new CubeAnimator(cubeRoot, model, cubeRenderer);
 
 cubeRenderer.build(model.getCubies());
 
-bindKeyboard((move) => {
+bindKeyboard(cubeRoot, camera, (move) => {
   animator.enqueue(move);
 });
 

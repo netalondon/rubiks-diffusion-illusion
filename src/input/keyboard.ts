@@ -1,16 +1,41 @@
 import type { Move } from '../cube/moves';
-import { parseMove } from '../cube/moves';
+import type { Face } from '../cube/moves';
+import { isFace } from '../cube/moves';
+import type * as THREE from 'three';
+import { computeFaceMapping } from './faceMapping';
 
-export function bindKeyboard(onMove: (move: Move) => void): () => void {
+export function bindKeyboard(
+  cubeRoot: THREE.Object3D,
+  camera: THREE.Camera,
+  onMove: (move: Move) => void
+): () => void {
+  let lastMapping: Record<Face, Face> = {
+    R: 'R',
+    L: 'L',
+    U: 'U',
+    D: 'D',
+    F: 'F',
+    B: 'B'
+  };
+
   const handler = (event: KeyboardEvent) => {
     if (event.repeat) {
       return;
     }
 
-    const move = parseMove(event.key, event.shiftKey);
-    if (!move) {
+    const key = event.key.toUpperCase();
+    if (!isFace(key)) {
       return;
     }
+
+    const mapping = computeFaceMapping(cubeRoot, camera, lastMapping);
+    lastMapping = mapping;
+
+    const move: Move = {
+      face: mapping[key],
+      turns: event.shiftKey ? -1 : 1
+    };
+
     event.preventDefault();
     onMove(move);
   };
