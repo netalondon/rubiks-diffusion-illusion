@@ -13,15 +13,15 @@ interface ActiveTurn {
 }
 
 export class CubeAnimator {
-  private scene: THREE.Scene;
+  private parent: THREE.Object3D;
   private model: CubeModel;
   private renderer: CubeRenderer;
   private queue: Move[] = [];
   private active: ActiveTurn | null = null;
   private durationMs: number;
 
-  constructor(scene: THREE.Scene, model: CubeModel, renderer: CubeRenderer, durationMs = 250) {
-    this.scene = scene;
+  constructor(parent: THREE.Object3D, model: CubeModel, renderer: CubeRenderer, durationMs = 250) {
+    this.parent = parent;
     this.model = model;
     this.renderer = renderer;
     this.durationMs = durationMs;
@@ -69,7 +69,7 @@ export class CubeAnimator {
 
   private startMove(move: Move): ActiveTurn {
     const group = new THREE.Group();
-    this.scene.add(group);
+    this.parent.add(group);
 
     const cubieIds = getLayerCubieIds(this.model, move.face);
     for (const id of cubieIds) {
@@ -94,11 +94,11 @@ export class CubeAnimator {
     for (const id of this.active.cubieIds) {
       const mesh = this.renderer.getMesh(id);
       if (mesh) {
-        this.scene.attach(mesh);
+        this.parent.attach(mesh);
       }
     }
 
-    this.scene.remove(this.active.group);
+    this.parent.remove(this.active.group);
 
     this.model.applyMove(this.active.move);
     this.renderer.applyModel(this.model.getCubies());

@@ -1,11 +1,8 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-
 export interface SceneBundle {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
   renderer: THREE.WebGLRenderer;
-  controls: OrbitControls;
 }
 
 export function setupScene(container: HTMLElement): SceneBundle {
@@ -14,17 +11,12 @@ export function setupScene(container: HTMLElement): SceneBundle {
 
   const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
   camera.position.set(5, 5, 6.5);
+  camera.lookAt(0, 0, 0);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.shadowMap.enabled = true;
   container.appendChild(renderer.domElement);
-
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.08;
-  controls.target.set(0, 0, 0);
-  controls.update();
 
   const ambientLight = new THREE.AmbientLight('#ffffff', 0.6);
   scene.add(ambientLight);
@@ -49,5 +41,5 @@ export function setupScene(container: HTMLElement): SceneBundle {
   window.addEventListener('resize', resize);
   resize();
 
-  return { scene, camera, renderer, controls };
+  return { scene, camera, renderer };
 }

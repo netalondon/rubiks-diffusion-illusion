@@ -14,13 +14,13 @@ const FACE_TO_INDEX: Record<Face, number> = {
 };
 
 export class CubeRenderer {
-  private scene: THREE.Scene;
+  private parent: THREE.Object3D;
   private meshMap: Map<string, THREE.Mesh> = new Map();
   private size: number;
   private gap: number;
 
-  constructor(scene: THREE.Scene, size = 0.9, gap = 0.08) {
-    this.scene = scene;
+  constructor(parent: THREE.Object3D, size = 0.9, gap = 0.08) {
+    this.parent = parent;
     this.size = size;
     this.gap = gap;
   }
@@ -34,7 +34,7 @@ export class CubeRenderer {
       mesh.castShadow = true;
       mesh.receiveShadow = true;
       this.meshMap.set(cubie.id, mesh);
-      this.scene.add(mesh);
+      this.parent.add(mesh);
     }
 
     this.applyModel(cubies);
