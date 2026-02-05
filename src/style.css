@@ -1,0 +1,25 @@
+:root {
+  color-scheme: light;
+  font-family: "Space Grotesk", "Fira Sans", system-ui, sans-serif;
+  background: radial-gradient(circle at top, #f4f1ea 0%, #d7d1c8 45%, #bdb6ad 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+}
