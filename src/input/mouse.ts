@@ -12,16 +12,18 @@ export function bindCubeDrag(
 ): () => void {
   const sensitivity = options.sensitivity ?? 0.005;
   let isDragging = false;
-  let lastX = 0;
-  let lastY = 0;
+  let startX = 0;
+  let startY = 0;
+  const startQuaternion = new THREE.Quaternion();
 
   const onPointerDown = (event: PointerEvent) => {
     if (event.button !== 0) {
       return;
     }
     isDragging = true;
-    lastX = event.clientX;
-    lastY = event.clientY;
+    startX = event.clientX;
+    startY = event.clientY;
+    startQuaternion.copy(cubeRoot.quaternion);
     element.setPointerCapture(event.pointerId);
     event.preventDefault();
   };
@@ -30,10 +32,8 @@ export function bindCubeDrag(
     if (!isDragging) {
       return;
     }
-    const deltaX = event.clientX - lastX;
-    const deltaY = event.clientY - lastY;
-    lastX = event.clientX;
-    lastY = event.clientY;
+    const deltaX = event.clientX - startX;
+    const deltaY = event.clientY - startY;
 
     const rotationY = deltaX * sensitivity;
     const rotationX = deltaY * sensitivity;
@@ -42,7 +42,7 @@ export function bindCubeDrag(
     const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion).normalize();
     const qx = new THREE.Quaternion().setFromAxisAngle(right, rotationX);
 
-    cubeRoot.quaternion.premultiply(qy).premultiply(qx);
+    cubeRoot.quaternion.copy(startQuaternion).premultiply(qy).premultiply(qx).normalize();
     event.preventDefault();
   };
 
