@@ -86,9 +86,17 @@ function createScrambleControls(
   artModeLabel.className = 'scramble-panel__meta';
   artModeLabel.textContent =
     artMode === 'debug'
-      ? 'Art mode: debug labels. Remove ?art=debug to return to photos.'
+      ? 'Art mode: debug labels. The TOP bar marks the sticker edge that was up in the source face image.'
       : 'Art mode: photos. Add ?art=debug to verify sticker mapping visually.';
   panel.append(artModeLabel);
+
+  if (artMode === 'debug') {
+    const rotationHint = document.createElement('p');
+    rotationHint.className = 'scramble-panel__meta';
+    rotationHint.textContent =
+      'Rotation check: after scrambling, watch where that TOP bar ends up. Right side means r1, bottom means r2, left side means r3.';
+    panel.append(rotationHint);
+  }
 
   const scramble = document.createElement('p');
   scramble.className = 'scramble-panel__text';

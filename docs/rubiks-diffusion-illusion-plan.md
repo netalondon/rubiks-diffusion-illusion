@@ -30,6 +30,7 @@ http://localhost:5173/?art=debug
 ```
 
 That switches the cube from photo face art to generated debug tiles labeled like `F` and `2,1`.
+Each sticker also has a dark `TOP` bar and a small corner marker. Those show the sticker's original upright direction before any scramble rotation.
 
 Each cell is formatted like:
 
@@ -42,6 +43,13 @@ Meaning:
 - the tile comes from source face `F`
 - it started at row `2`, column `1` inside that face image
 - it must be rotated by `3` quarter-turns clockwise when shown in its new position
+
+When using `?art=debug`, you can read that rotation visually:
+
+- `r0`: the `TOP` bar is still at the top
+- `r1`: the `TOP` bar moved to the right
+- `r2`: the `TOP` bar moved to the bottom
+- `r3`: the `TOP` bar moved to the left
 
 ## Why This Matters
 

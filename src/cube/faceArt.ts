@@ -23,6 +23,7 @@ const DEBUG_FACE_COLORS: Record<Face, { fill: string; accent: string; ink: strin
 
 const DEBUG_IMAGE_SIZE = 900;
 const DEBUG_TILE_SIZE = DEBUG_IMAGE_SIZE / 3;
+const DEBUG_TILE_INSET = 6;
 
 export async function loadFaceArtImages(mode: FaceArtMode = 'photo'): Promise<FaceArtImages> {
   if (mode === 'debug') {
@@ -86,6 +87,8 @@ async function createDebugFaceImage(face: Face): Promise<HTMLImageElement> {
       context.lineWidth = 12;
       context.strokeRect(x + 6, y + 6, DEBUG_TILE_SIZE - 12, DEBUG_TILE_SIZE - 12);
 
+      drawOrientationGuide(context, x, y, colors);
+
       context.fillStyle = colors.ink;
       context.textAlign = 'center';
       context.textBaseline = 'middle';
@@ -103,4 +106,34 @@ async function createDebugFaceImage(face: Face): Promise<HTMLImageElement> {
   context.strokeRect(8, 8, DEBUG_IMAGE_SIZE - 16, DEBUG_IMAGE_SIZE - 16);
 
   return loadImage(canvas.toDataURL('image/png'));
+}
+
+function drawOrientationGuide(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  colors: { fill: string; accent: string; ink: string }
+): void {
+  const innerX = x + DEBUG_TILE_INSET;
+  const innerY = y + DEBUG_TILE_INSET;
+  const innerSize = DEBUG_TILE_SIZE - DEBUG_TILE_INSET * 2;
+  const topBarHeight = 44;
+  const markerSize = 34;
+
+  context.fillStyle = colors.ink;
+  context.fillRect(innerX, innerY, innerSize, topBarHeight);
+
+  context.fillStyle = '#ffffff';
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.font = '700 28px "Space Mono", monospace';
+  context.fillText('TOP', x + DEBUG_TILE_SIZE / 2, innerY + topBarHeight / 2 + 1);
+
+  context.fillStyle = colors.ink;
+  context.beginPath();
+  context.moveTo(innerX + 18, innerY + topBarHeight + 14);
+  context.lineTo(innerX + 18 + markerSize, innerY + topBarHeight + 14);
+  context.lineTo(innerX + 18, innerY + topBarHeight + 14 + markerSize);
+  context.closePath();
+  context.fill();
 }
