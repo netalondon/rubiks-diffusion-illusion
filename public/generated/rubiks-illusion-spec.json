@@ -1,0 +1,802 @@
+{
+  "version": 1,
+  "primeImages": [
+    "U",
+    "D",
+    "L",
+    "R",
+    "F",
+    "B"
+  ],
+  "sourceGridSize": 3,
+  "arrangements": {
+    "solved": [
+      {
+        "face": "U",
+        "grid": [
+          [
+            {
+              "sourceFace": "U",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "U",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "U",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      },
+      {
+        "face": "D",
+        "grid": [
+          [
+            {
+              "sourceFace": "D",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "D",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "D",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      },
+      {
+        "face": "L",
+        "grid": [
+          [
+            {
+              "sourceFace": "L",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "L",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "L",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      },
+      {
+        "face": "R",
+        "grid": [
+          [
+            {
+              "sourceFace": "R",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "R",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "R",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      },
+      {
+        "face": "F",
+        "grid": [
+          [
+            {
+              "sourceFace": "F",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "F",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "F",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      },
+      {
+        "face": "B",
+        "grid": [
+          [
+            {
+              "sourceFace": "B",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "B",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "B",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      }
+    ],
+    "scrambled": [
+      {
+        "face": "U",
+        "grid": [
+          [
+            {
+              "sourceFace": "R",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 3
+            }
+          ],
+          [
+            {
+              "sourceFace": "B",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 2
+            }
+          ],
+          [
+            {
+              "sourceFace": "U",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 1
+            }
+          ]
+        ]
+      },
+      {
+        "face": "D",
+        "grid": [
+          [
+            {
+              "sourceFace": "U",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "B",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 1
+            }
+          ],
+          [
+            {
+              "sourceFace": "D",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 2
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      },
+      {
+        "face": "L",
+        "grid": [
+          [
+            {
+              "sourceFace": "U",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 2
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ],
+          [
+            {
+              "sourceFace": "D",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 1
+            }
+          ],
+          [
+            {
+              "sourceFace": "F",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 2
+            }
+          ]
+        ]
+      },
+      {
+        "face": "R",
+        "grid": [
+          [
+            {
+              "sourceFace": "U",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 3
+            }
+          ],
+          [
+            {
+              "sourceFace": "F",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 2
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 2
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 3
+            }
+          ],
+          [
+            {
+              "sourceFace": "R",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 2
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 3
+            }
+          ]
+        ]
+      },
+      {
+        "face": "F",
+        "grid": [
+          [
+            {
+              "sourceFace": "R",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "D",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 1
+            }
+          ],
+          [
+            {
+              "sourceFace": "U",
+              "sourceRow": 1,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 2
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "R",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 2
+            }
+          ],
+          [
+            {
+              "sourceFace": "B",
+              "sourceRow": 0,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 2
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      },
+      {
+        "face": "B",
+        "grid": [
+          [
+            {
+              "sourceFace": "B",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 2
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 0,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 1
+            }
+          ],
+          [
+            {
+              "sourceFace": "F",
+              "sourceRow": 0,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "B",
+              "sourceRow": 1,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 1
+            },
+            {
+              "sourceFace": "F",
+              "sourceRow": 2,
+              "sourceCol": 1,
+              "rotationQuarterTurns": 3
+            }
+          ],
+          [
+            {
+              "sourceFace": "D",
+              "sourceRow": 2,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 0
+            },
+            {
+              "sourceFace": "U",
+              "sourceRow": 1,
+              "sourceCol": 0,
+              "rotationQuarterTurns": 3
+            },
+            {
+              "sourceFace": "L",
+              "sourceRow": 2,
+              "sourceCol": 2,
+              "rotationQuarterTurns": 0
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "scramble": {
+    "text": "B L2 F' U2 F' L' B F R' B' U R B2 D2 R2 L2 D B2 D2 F2",
+    "length": 20
+  }
+}

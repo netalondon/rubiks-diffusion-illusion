@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "export:rubiks-illusion-spec": "node --import tsx scripts/exportRubiksIllusionSpec.ts",
     "inspect:saved-scramble": "node --import tsx scripts/inspectSavedScramble.ts",
     "find:nonadjacent-scramble": "node --import tsx scripts/findNonAdjacentScramble.ts",
     "test:nonadjacent-scramble": "node --import tsx --test scripts/*.test.ts"

@@ -66,3 +66,26 @@ Once we can describe the scramble as "take this tile from this face, rotate it l
 2. Create a no-AI baseline by manually designing six simple `3x3` label images and confirming the scramble rearranges them exactly as expected.
 3. Recreate the same tile permutation in Python or Colab.
 4. Only then plug a diffusion notebook into that custom operator.
+
+## Step 2
+
+The next file to generate is a machine-readable arrangement spec:
+
+```bash
+npm run export:rubiks-illusion-spec
+```
+
+That writes:
+
+```text
+public/generated/rubiks-illusion-spec.json
+```
+
+This is the handoff file for Python or Colab. It contains:
+
+- the six prime image ids (`U`, `D`, `L`, `R`, `F`, `B`)
+- the solved arrangement
+- the scrambled arrangement
+- for every derived cell: source face, source row, source column, and quarter-turn rotation
+
+Once that file exists, the next coding task is much smaller: "read this JSON in Python and recreate the same derived faces".
