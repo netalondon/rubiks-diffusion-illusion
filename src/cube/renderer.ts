@@ -88,8 +88,10 @@ export class CubeRenderer {
     }
 
     const image = this.faceArtImages[sticker.artFace];
-    const tileWidth = image.width / 3;
-    const tileHeight = image.height / 3;
+    const sourceWidth = image.naturalWidth || image.width;
+    const sourceHeight = image.naturalHeight || image.height;
+    const tileWidth = sourceWidth / 3;
+    const tileHeight = sourceHeight / 3;
     const canvas = document.createElement('canvas');
     canvas.width = TILE_TEXTURE_SIZE;
     canvas.height = TILE_TEXTURE_SIZE;
