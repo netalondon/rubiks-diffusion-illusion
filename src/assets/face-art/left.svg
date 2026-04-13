@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
+  <defs>
+    <linearGradient id="leafBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f1ffe0" />
+      <stop offset="55%" stop-color="#bde6a3" />
+      <stop offset="100%" stop-color="#6bb66c" />
+    </linearGradient>
+    <linearGradient id="leafFill" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#3b9448" />
+      <stop offset="100%" stop-color="#1f5d2f" />
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#leafBg)" />
+  <circle cx="178" cy="158" r="120" fill="#ffffff" opacity="0.25" />
+  <circle cx="732" cy="728" r="164" fill="#ffffff" opacity="0.16" />
+  <path d="M465 145C603 155 719 227 765 335C822 467 771 646 629 748C509 834 338 830 233 736C145 656 103 538 118 422C136 283 257 154 465 145Z" fill="url(#leafFill)" />
+  <path d="M223 712C334 628 434 522 522 396C584 307 646 215 705 132" fill="none" stroke="#d7ffd5" stroke-width="24" stroke-linecap="round" opacity="0.95" />
+  <path d="M320 654C348 616 372 573 392 525" fill="none" stroke="#d7ffd5" stroke-width="12" stroke-linecap="round" opacity="0.7" />
+  <path d="M400 736C456 672 506 602 548 526" fill="none" stroke="#d7ffd5" stroke-width="12" stroke-linecap="round" opacity="0.7" />
+  <path d="M260 538C302 514 341 480 376 438" fill="none" stroke="#d7ffd5" stroke-width="12" stroke-linecap="round" opacity="0.7" />
+  <path d="M510 448C580 402 642 341 700 266" fill="none" stroke="#d7ffd5" stroke-width="12" stroke-linecap="round" opacity="0.7" />
+  <path d="M96 770C245 678 382 548 492 394C587 260 653 132 709 40" fill="none" stroke="#1b4a27" stroke-width="10" stroke-linecap="round" opacity="0.15" />
+</svg>

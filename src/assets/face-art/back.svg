@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
+  <defs>
+    <linearGradient id="mountBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#eef2fb" />
+      <stop offset="48%" stop-color="#b1c2e1" />
+      <stop offset="100%" stop-color="#627ea8" />
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#mountBg)" />
+  <circle cx="704" cy="172" r="132" fill="#ffffff" opacity="0.2" />
+  <path d="M0 654C83 607 172 589 265 603C341 614 412 646 474 680C563 728 660 756 771 738C816 731 859 719 900 702V900H0Z" fill="#92a4c6" opacity="0.55" />
+  <path d="M67 674L276 358L431 674Z" fill="#4f6386" />
+  <path d="M430 674L638 286L838 674Z" fill="#3f5376" />
+  <path d="M210 458L278 358L344 458Z" fill="#f5fbff" opacity="0.85" />
+  <path d="M576 404L638 286L704 404Z" fill="#f5fbff" opacity="0.88" />
+  <path d="M0 762C91 723 187 716 290 753C401 793 509 835 635 838C730 840 817 821 900 786V900H0Z" fill="#2c3f61" opacity="0.6" />
+  <path d="M148 294C225 246 321 231 409 254" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" opacity="0.58" />
+</svg>

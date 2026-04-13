@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
+  <defs>
+    <linearGradient id="seaBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#dbf8ff" />
+      <stop offset="48%" stop-color="#83d7f5" />
+      <stop offset="100%" stop-color="#1a84cb" />
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" fill="url(#seaBg)" />
+  <circle cx="168" cy="150" r="118" fill="#ffffff" opacity="0.24" />
+  <circle cx="736" cy="210" r="86" fill="#ffffff" opacity="0.16" />
+  <path d="M98 520C176 438 279 398 394 405C515 412 622 489 664 612C698 711 680 799 624 864C559 938 436 972 326 945C204 914 118 817 95 702C82 637 85 579 98 520Z" fill="#f4fdff" opacity="0.92" />
+  <path d="M157 560C248 468 364 438 469 474C556 505 626 581 648 678C588 624 513 600 429 604C328 609 237 655 161 744C134 684 131 624 157 560Z" fill="#45b2e6" opacity="0.95" />
+  <path d="M0 650C83 610 166 596 252 608C350 623 435 676 514 721C606 774 706 803 806 788C839 783 870 775 900 764V900H0Z" fill="#0b5e98" opacity="0.46" />
+  <path d="M0 750C95 718 195 714 299 752C420 797 538 839 673 836C753 834 830 814 900 784V900H0Z" fill="#074570" opacity="0.58" />
+  <path d="M184 236C230 205 279 194 330 206" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" opacity="0.72" />
+</svg>
