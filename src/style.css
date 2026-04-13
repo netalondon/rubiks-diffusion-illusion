@@ -49,7 +49,8 @@ canvas {
 }
 
 .scramble-panel__status,
-.scramble-panel__text {
+.scramble-panel__text,
+.scramble-panel__meta {
   margin: 0;
   color: #2c2419;
 }
@@ -57,6 +58,13 @@ canvas {
 .scramble-panel__status {
   font-size: 0.95rem;
   line-height: 1.45;
+}
+
+.scramble-panel__meta {
+  margin-top: 0.45rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #67533b;
 }
 
 .scramble-panel__text {

@@ -1,6 +1,7 @@
 import './style.css';
 import * as THREE from 'three';
-import { loadFaceArtImages } from './cube/faceArt';
+import { loadFaceArtImages, resolveFaceArtModeFromUrlSearch } from './cube/faceArt';
+import type { FaceArtMode } from './cube/faceArt';
 import { CubeModel } from './cube/model';
 import { CubeRenderer } from './cube/renderer';
 import { CubeAnimator } from './cube/animator';
@@ -17,7 +18,8 @@ const appRoot = app;
 
 async function bootstrap() {
   const { scene, camera, renderer } = setupScene(appRoot);
-  const faceArtImages = await loadFaceArtImages();
+  const artMode = resolveFaceArtModeFromUrlSearch(window.location.search);
+  const faceArtImages = await loadFaceArtImages(artMode);
 
   const cubeRoot = new THREE.Group();
   scene.add(cubeRoot);
@@ -27,7 +29,7 @@ async function bootstrap() {
   const animator = new CubeAnimator(cubeRoot, model, cubeRenderer);
 
   cubeRenderer.build(model.getCubies());
-  const scrambleControls = createScrambleControls(appRoot, animator);
+  const scrambleControls = createScrambleControls(appRoot, animator, artMode);
   void initializeGeneratedScramble(scrambleControls, animator);
 
   bindKeyboard(cubeRoot, camera, (move) => {
@@ -62,7 +64,11 @@ interface ScrambleControls {
   scramble: HTMLParagraphElement;
 }
 
-function createScrambleControls(appRoot: HTMLDivElement, animator: CubeAnimator): ScrambleControls {
+function createScrambleControls(
+  appRoot: HTMLDivElement,
+  animator: CubeAnimator,
+  artMode: FaceArtMode
+): ScrambleControls {
   const panel = document.createElement('section');
   panel.className = 'scramble-panel';
 
@@ -75,6 +81,14 @@ function createScrambleControls(appRoot: HTMLDivElement, animator: CubeAnimator)
   status.className = 'scramble-panel__status';
   status.textContent = 'Loading saved scramble...';
   panel.append(status);
+
+  const artModeLabel = document.createElement('p');
+  artModeLabel.className = 'scramble-panel__meta';
+  artModeLabel.textContent =
+    artMode === 'debug'
+      ? 'Art mode: debug labels. Remove ?art=debug to return to photos.'
+      : 'Art mode: photos. Add ?art=debug to verify sticker mapping visually.';
+  panel.append(artModeLabel);
 
   const scramble = document.createElement('p');
   scramble.className = 'scramble-panel__text';

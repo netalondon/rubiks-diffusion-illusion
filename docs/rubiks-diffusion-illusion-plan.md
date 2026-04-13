@@ -23,6 +23,14 @@ npm run inspect:saved-scramble
 
 That prints a `3x3` summary for each visible face after the saved scramble.
 
+For a visual check in the browser, run the app and open the local Vite URL with `?art=debug` appended:
+
+```text
+http://localhost:5173/?art=debug
+```
+
+That switches the cube from photo face art to generated debug tiles labeled like `F` and `2,1`.
+
 Each cell is formatted like:
 
 ```text
