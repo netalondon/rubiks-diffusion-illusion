@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "node --import tsx --test scripts/*.test.ts",
     "preview": "vite preview",
     "export:rubiks-illusion-spec": "node --import tsx scripts/exportRubiksIllusionSpec.ts",
     "inspect:saved-scramble": "node --import tsx scripts/inspectSavedScramble.ts",
