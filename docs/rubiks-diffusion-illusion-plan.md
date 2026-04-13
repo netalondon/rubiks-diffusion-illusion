@@ -89,3 +89,31 @@ This is the handoff file for Python or Colab. It contains:
 - for every derived cell: source face, source row, source column, and quarter-turn rotation
 
 Once that file exists, the next coding task is much smaller: "read this JSON in Python and recreate the same derived faces".
+
+## Step 3
+
+Set up the tiny Python bridge once:
+
+```bash
+npm run setup:python-bridge
+```
+
+Then render the solved and scrambled derived faces from the current source images:
+
+```bash
+npm run render:rubiks-illusion-spec
+```
+
+That writes:
+
+```text
+output/python/rubiks-illusion-render/solved
+output/python/rubiks-illusion-render/scrambled
+```
+
+Each folder contains:
+
+- six reconstructed face PNGs (`U.png`, `D.png`, `L.png`, `R.png`, `F.png`, `B.png`)
+- one `contact-sheet.png`
+
+At that point we have proved the same arrangement operator works outside the browser app.

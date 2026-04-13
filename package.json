@@ -10,6 +10,9 @@
     "export:rubiks-illusion-spec": "node --import tsx scripts/exportRubiksIllusionSpec.ts",
     "inspect:saved-scramble": "node --import tsx scripts/inspectSavedScramble.ts",
     "find:nonadjacent-scramble": "node --import tsx scripts/findNonAdjacentScramble.ts",
+    "setup:python-bridge": "python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt",
+    "render:rubiks-illusion-spec": ".venv/bin/python scripts/render_rubiks_illusion_spec.py",
+    "test:python-bridge": ".venv/bin/python -m unittest scripts/render_rubiks_illusion_spec_test.py",
     "test:nonadjacent-scramble": "node --import tsx --test scripts/*.test.ts"
   },
   "devDependencies": {
