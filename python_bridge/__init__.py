@@ -8,14 +8,34 @@ from .rubiks_illusion_operator import (
     save_contact_sheet,
     save_rendered_faces,
 )
+from .rubiks_illusion_torch import (
+    batch_to_pil_face_dict,
+    clone_rendered_to_cpu,
+    pil_to_tensor,
+    render_all_arrangements_torch,
+    render_arrangement_torch,
+    render_face_grid_torch,
+    rotate_tile_tensor,
+    stack_source_face_tensors,
+    tensor_to_pil,
+)
 
 __all__ = [
     "FACE_FILE_NAMES",
+    "batch_to_pil_face_dict",
+    "clone_rendered_to_cpu",
     "load_source_faces",
     "load_spec",
+    "pil_to_tensor",
     "render_all_arrangements",
+    "render_all_arrangements_torch",
     "render_arrangement",
+    "render_arrangement_torch",
     "render_face_grid",
+    "render_face_grid_torch",
+    "rotate_tile_tensor",
     "save_contact_sheet",
     "save_rendered_faces",
+    "stack_source_face_tensors",
+    "tensor_to_pil",
 ]

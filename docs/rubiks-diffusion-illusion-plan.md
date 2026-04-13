@@ -161,3 +161,11 @@ notebooks/rubiks_colab_optimization_sandbox.ipynb
 ```
 
 It stays one step before diffusion: low resolution, toy targets, a differentiable torch version of the same Rubik's arrangement operator, and a small comparison between baseline optimization, stronger smoothness regularization, and an anchor-to-initialization penalty.
+
+The first diffusion-facing notebook lives at:
+
+```text
+notebooks/rubiks_colab_diffusion_smoke_test.ipynb
+```
+
+It is intentionally a smoke test rather than a full illusion notebook. It clones the official Diffusion Illusions repo, loads our Rubik arrangement spec plus differentiable torch operator, optimizes six learnable source faces, and sends two rendered Rubik views (`solved:F` and `scrambled:U`) through the official Stable Diffusion `train_step`.
