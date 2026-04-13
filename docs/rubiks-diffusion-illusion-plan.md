@@ -117,3 +117,31 @@ Each folder contains:
 - one `contact-sheet.png`
 
 At that point we have proved the same arrangement operator works outside the browser app.
+
+## Step 4
+
+The reusable Python operator now lives in:
+
+```text
+python_bridge/rubiks_illusion_operator.py
+```
+
+This is the file we should plan to import in Colab.
+
+The important shape is:
+
+```python
+from python_bridge.rubiks_illusion_operator import render_all_arrangements
+
+rendered = render_all_arrangements(spec, source_faces)
+solved_faces = rendered["solved"]
+scrambled_faces = rendered["scrambled"]
+```
+
+Where:
+
+- `spec` is the parsed JSON from `public/generated/rubiks-illusion-spec.json`
+- `source_faces` is an in-memory dict like `{"U": pil_image_u, ..., "B": pil_image_b}`
+
+That means Colab will not need to know anything about cube moves or 3D logic.
+It will only need to optimize six source images and call this operator.
