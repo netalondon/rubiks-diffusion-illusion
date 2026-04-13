@@ -176,4 +176,4 @@ The next diffusion notebook for comparing light multi-view pressure lives at:
 notebooks/rubiks_colab_diffusion_multiview_probe.ipynb
 ```
 
-It keeps the smoother raster setup, reintroduces `scrambled:U` with a lighter weight than `solved:F`, writes outputs to a separate folder, and includes the same export-archive cell so one Colab run produces both new results and a downloadable bundle.
+It keeps the smoother raster setup, now includes switchable presets for lighter-vs-equal weighting and geometric-vs-semantic prompts, writes outputs to per-experiment folders, saves timestamped run snapshots under `output/colab-runs`, and includes the same export-archive cell so one Colab run produces both new results and a downloadable bundle.
