@@ -1,21 +1,25 @@
 import { performance } from 'node:perf_hooks';
+import type { GeneratedScrambleRecord } from '../src/cube/generatedScramble';
 import { projectVisibleFaces, hasWithinFaceAdjacentColors } from '../src/cube/faceState';
 import { CubeModel } from '../src/cube/model';
 import { formatScramble, generateOfficialLikeScramble } from '../src/cube/moves';
+import { DEFAULT_OUTPUT_PATH, writeGeneratedScrambleFile } from './generatedScrambleFile';
 
 interface SearchOptions {
   length: number;
   maxAttempts: number;
   progressEvery: number;
+  output: string;
 }
 
 const DEFAULT_OPTIONS: SearchOptions = {
   length: 20,
   maxAttempts: Number.POSITIVE_INFINITY,
-  progressEvery: 10_000
+  progressEvery: 10_000,
+  output: DEFAULT_OUTPUT_PATH
 };
 
-function main(): void {
+async function main(): Promise<void> {
   const options = parseArgs(process.argv.slice(2));
   const startedAt = performance.now();
 
@@ -30,8 +34,11 @@ function main(): void {
     const faces = projectVisibleFaces(cube.getCubies());
     if (!hasWithinFaceAdjacentColors(faces)) {
       const elapsedMs = performance.now() - startedAt;
+      const record = createGeneratedScrambleRecord(scramble, attempts, elapsedMs);
+      const outputPath = await writeGeneratedScrambleFile(record, options.output);
       console.log(`Found scramble after ${attempts.toLocaleString()} attempts in ${formatElapsed(elapsedMs)}.`);
       console.log(formatScramble(scramble));
+      console.log(`Saved to ${outputPath}.`);
       return;
     }
 
@@ -71,6 +78,13 @@ function parseArgs(argv: string[]): SearchOptions {
         options.progressEvery = parsePositiveInteger(arg, value);
         index += 1;
         break;
+      case '--output':
+        if (!value) {
+          throw new Error(`Missing value for ${arg}`);
+        }
+        options.output = value;
+        index += 1;
+        break;
       default:
         throw new Error(`Unknown argument: ${arg}`);
     }
@@ -107,8 +121,25 @@ function formatElapsed(milliseconds: number): string {
   return `${minutes}m ${seconds.toFixed(1)}s`;
 }
 
+function createGeneratedScrambleRecord(
+  scramble: ReturnType<typeof generateOfficialLikeScramble>,
+  attempts: number,
+  elapsedMs: number
+): GeneratedScrambleRecord {
+  return {
+    scramble: formatScramble(scramble),
+    moves: scramble,
+    length: scramble.length,
+    attempts,
+    elapsedMs,
+    foundAt: new Date().toISOString(),
+    adjacencyRule: 'within-face-only',
+    scrambleRule: 'official-like'
+  };
+}
+
 try {
-  main();
+  await main();
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
   console.error(message);

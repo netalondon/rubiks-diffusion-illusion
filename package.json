@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "find:nonadjacent-scramble": "node --import tsx scripts/findNonAdjacentScramble.ts",
-    "test:nonadjacent-scramble": "node --import tsx --test scripts/nonAdjacentScramble.test.ts"
+    "test:nonadjacent-scramble": "node --import tsx --test scripts/*.test.ts"
   },
   "devDependencies": {
     "@types/three": "^0.164.0",
