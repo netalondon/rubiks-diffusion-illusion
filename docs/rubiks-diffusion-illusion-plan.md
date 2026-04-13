@@ -145,3 +145,11 @@ Where:
 
 That means Colab will not need to know anything about cube moves or 3D logic.
 It will only need to optimize six source images and call this operator.
+
+The first notebook for this flow lives at:
+
+```text
+notebooks/rubiks_colab_bootstrap.ipynb
+```
+
+It is intentionally small and only bootstraps the runtime, imports the operator, and renders solved/scrambled faces.
