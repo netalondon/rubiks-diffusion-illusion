@@ -168,4 +168,12 @@ The first diffusion-facing notebook lives at:
 notebooks/rubiks_colab_diffusion_smoke_test.ipynb
 ```
 
-It is intentionally a smoke test rather than a full illusion notebook. It clones the official Diffusion Illusions repo, loads our Rubik arrangement spec plus differentiable torch operator, optimizes six learnable source faces, and sends two rendered Rubik views (`solved:F` and `scrambled:U`) through the official Stable Diffusion `train_step`.
+It started as the first smoke test bridge into the official Diffusion Illusions code, and now also contains the smoother single-view variant: smooth raster source faces, explicit regularization, one primary target view (`solved:F`), and an export zip cell for getting results back out of Colab.
+
+The next diffusion notebook for comparing light multi-view pressure lives at:
+
+```text
+notebooks/rubiks_colab_diffusion_multiview_probe.ipynb
+```
+
+It keeps the smoother raster setup, reintroduces `scrambled:U` with a lighter weight than `solved:F`, writes outputs to a separate folder, and includes the same export-archive cell so one Colab run produces both new results and a downloadable bundle.
