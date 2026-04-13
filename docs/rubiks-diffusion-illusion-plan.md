@@ -177,3 +177,11 @@ notebooks/rubiks_colab_diffusion_multiview_probe.ipynb
 ```
 
 It keeps the smoother raster setup, now includes switchable presets for lighter-vs-equal weighting and geometric-vs-semantic prompts, writes outputs to per-experiment folders, saves timestamped run snapshots under `output/colab-runs`, and includes the same export-archive cell so one Colab run produces both new results and a downloadable bundle.
+
+For unattended overnight scaling tests, use:
+
+```text
+notebooks/rubiks_colab_face_sweep.ipynb
+```
+
+It keeps the memory-safe `128x128` official-like Fourier setup that worked locally, runs a hands-off sweep over `3`, `4`, `5`, and `6` selected faces, samples one training view per iteration like the official notebooks, uses `2000` iterations per run, assigns the same cat watercolor prompt to all solved targets and the same dog watercolor prompt to all scrambled targets, and records both per-run artifacts and a `sweep-summary.json` file so you can see exactly where the setup still succeeds or fails.
