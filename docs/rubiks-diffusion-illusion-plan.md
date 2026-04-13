@@ -160,4 +160,4 @@ The next learning notebook lives at:
 notebooks/rubiks_colab_optimization_sandbox.ipynb
 ```
 
-It stays one step before diffusion: low resolution, toy targets, direct pixel optimization, and a differentiable torch version of the same Rubik's arrangement operator.
+It stays one step before diffusion: low resolution, toy targets, a differentiable torch version of the same Rubik's arrangement operator, and a small comparison between baseline optimization, stronger smoothness regularization, and an anchor-to-initialization penalty.
