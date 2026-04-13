@@ -1,0 +1,91 @@
+{
+  "scramble": "B L2 F' U2 F' L' B F R' B' U R B2 D2 R2 L2 D B2 D2 F2",
+  "moves": [
+    {
+      "face": "B",
+      "turns": 1
+    },
+    {
+      "face": "L",
+      "turns": 2
+    },
+    {
+      "face": "F",
+      "turns": -1
+    },
+    {
+      "face": "U",
+      "turns": 2
+    },
+    {
+      "face": "F",
+      "turns": -1
+    },
+    {
+      "face": "L",
+      "turns": -1
+    },
+    {
+      "face": "B",
+      "turns": 1
+    },
+    {
+      "face": "F",
+      "turns": 1
+    },
+    {
+      "face": "R",
+      "turns": -1
+    },
+    {
+      "face": "B",
+      "turns": -1
+    },
+    {
+      "face": "U",
+      "turns": 1
+    },
+    {
+      "face": "R",
+      "turns": 1
+    },
+    {
+      "face": "B",
+      "turns": 2
+    },
+    {
+      "face": "D",
+      "turns": 2
+    },
+    {
+      "face": "R",
+      "turns": 2
+    },
+    {
+      "face": "L",
+      "turns": 2
+    },
+    {
+      "face": "D",
+      "turns": 1
+    },
+    {
+      "face": "B",
+      "turns": 2
+    },
+    {
+      "face": "D",
+      "turns": 2
+    },
+    {
+      "face": "F",
+      "turns": 2
+    }
+  ],
+  "length": 20,
+  "attempts": 110155,
+  "elapsedMs": 11058.378268,
+  "foundAt": "2026-04-13T07:13:57.510Z",
+  "adjacencyRule": "within-face-only",
+  "scrambleRule": "official-like"
+}
