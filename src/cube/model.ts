@@ -1,5 +1,5 @@
 import type { Axis, Face, Move } from './moves';
-import { FACE_INFO } from './moves';
+import { FACE_INFO, getQuarterTurnCount, getQuarterTurnDirection } from './moves';
 
 export interface Vec3 {
   x: number;
@@ -54,18 +54,22 @@ export class CubeModel {
 
   applyMove(move: Move): void {
     const { axis, axisSign, layer } = FACE_INFO[move.face];
-    const dir = -move.turns * axisSign;
+    const quarterTurnCount = getQuarterTurnCount(move.turns);
+    const dir = getQuarterTurnDirection(move.turns) * axisSign;
 
     for (const cubie of this.cubies) {
       if (!isOnLayer(cubie.position, axis, layer)) {
         continue;
       }
-      cubie.position = rotateVector(cubie.position, axis, dir);
-      cubie.stickers = cubie.stickers.map((sticker) => ({
-        ...sticker,
-        normal: rotateVector(sticker.normal, axis, dir),
-        up: rotateVector(sticker.up, axis, dir)
-      }));
+
+      for (let step = 0; step < quarterTurnCount; step += 1) {
+        cubie.position = rotateVector(cubie.position, axis, dir);
+        cubie.stickers = cubie.stickers.map((sticker) => ({
+          ...sticker,
+          normal: rotateVector(sticker.normal, axis, dir),
+          up: rotateVector(sticker.up, axis, dir)
+        }));
+      }
     }
   }
 }

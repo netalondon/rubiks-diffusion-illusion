@@ -1,5 +1,6 @@
 export type Face = 'U' | 'D' | 'L' | 'R' | 'F' | 'B';
-export type Turn = 1 | -1;
+export type Turn = 1 | -1 | 2;
+export type Axis = 'x' | 'y' | 'z';
 
 export interface Move {
   face: Face;
@@ -32,4 +33,61 @@ export const FACE_INFO = {
   B: { axis: 'z', axisSign: -1, layer: -1 }
 } as const;
 
-export type Axis = 'x' | 'y' | 'z';
+export const SCRAMBLE_TURNS: Turn[] = [1, -1, 2];
+
+export function formatMove(move: Move): string {
+  if (move.turns === -1) {
+    return `${move.face}'`;
+  }
+  if (move.turns === 2) {
+    return `${move.face}2`;
+  }
+  return move.face;
+}
+
+export function formatScramble(moves: Move[]): string {
+  return moves.map(formatMove).join(' ');
+}
+
+export function generateOfficialLikeScramble(length: number, random: () => number = Math.random): Move[] {
+  if (!Number.isInteger(length) || length <= 0) {
+    throw new Error(`Scramble length must be a positive integer, received: ${length}`);
+  }
+
+  const moves: Move[] = [];
+
+  while (moves.length < length) {
+    const candidates = FACE_ORDER.filter((face) => isAllowedNextFace(moves, face));
+    const face = candidates[Math.floor(random() * candidates.length)];
+    const turns = SCRAMBLE_TURNS[Math.floor(random() * SCRAMBLE_TURNS.length)];
+    moves.push({ face, turns });
+  }
+
+  return moves;
+}
+
+export function getQuarterTurnCount(turns: Turn): number {
+  return turns === 2 ? 2 : 1;
+}
+
+export function getQuarterTurnDirection(turns: Exclude<Turn, 2> | 2): 1 | -1 {
+  return turns === -1 ? 1 : -1;
+}
+
+function isAllowedNextFace(scramble: Move[], nextFace: Face): boolean {
+  const lastMove = scramble[scramble.length - 1];
+  if (lastMove?.face === nextFace) {
+    return false;
+  }
+
+  const secondLastMove = scramble[scramble.length - 2];
+  if (!lastMove || !secondLastMove) {
+    return true;
+  }
+
+  const recentAxis = FACE_INFO[lastMove.face].axis;
+  return !(
+    FACE_INFO[secondLastMove.face].axis === recentAxis &&
+    FACE_INFO[nextFace].axis === recentAxis
+  );
+}
