@@ -1,12 +1,12 @@
 import type { Face } from './moves';
 
 const FACE_ART_URLS: Record<Face, string> = {
-  U: new URL('../assets/face-art/up.svg', import.meta.url).href,
-  D: new URL('../assets/face-art/down.svg', import.meta.url).href,
-  L: new URL('../assets/face-art/left.svg', import.meta.url).href,
-  R: new URL('../assets/face-art/right.svg', import.meta.url).href,
-  F: new URL('../assets/face-art/front.svg', import.meta.url).href,
-  B: new URL('../assets/face-art/back.svg', import.meta.url).href
+  U: new URL('../assets/face-art/up.png', import.meta.url).href,
+  D: new URL('../assets/face-art/down.png', import.meta.url).href,
+  L: new URL('../assets/face-art/left.png', import.meta.url).href,
+  R: new URL('../assets/face-art/right.png', import.meta.url).href,
+  F: new URL('../assets/face-art/front.png', import.meta.url).href,
+  B: new URL('../assets/face-art/back.png', import.meta.url).href
 };
 
 export type FaceArtImages = Record<Face, HTMLImageElement>;
