@@ -153,3 +153,11 @@ notebooks/rubiks_colab_bootstrap.ipynb
 ```
 
 It is intentionally small and only bootstraps the runtime, imports the operator, and renders solved/scrambled faces.
+
+The next learning notebook lives at:
+
+```text
+notebooks/rubiks_colab_optimization_sandbox.ipynb
+```
+
+It stays one step before diffusion: low resolution, toy targets, direct pixel optimization, and a differentiable torch version of the same Rubik's arrangement operator.
