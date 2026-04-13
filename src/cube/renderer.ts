@@ -38,8 +38,6 @@ export class CubeRenderer {
     for (const cubie of cubies) {
       const materials = createCubieMaterials();
       const mesh = new THREE.Mesh(geometry, materials);
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
       this.meshMap.set(cubie.id, mesh);
       this.parent.add(mesh);
     }
@@ -57,7 +55,7 @@ export class CubeRenderer {
 
       const materials = mesh.material as THREE.Material[];
       for (const [face, index] of Object.entries(FACE_TO_INDEX) as Array<[Face, number]>) {
-        const material = materials[index] as THREE.MeshStandardMaterial;
+        const material = materials[index] as THREE.MeshBasicMaterial;
         const sticker = findStickerForFace(cubie, face);
 
         if (!sticker) {
@@ -118,21 +116,20 @@ export class CubeRenderer {
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.anisotropy = 4;
+    texture.needsUpdate = true;
     this.textureCache.set(cacheKey, texture);
     return texture;
   }
 }
 
-function createCubieMaterials(): THREE.MeshStandardMaterial[] {
-  const materials: THREE.MeshStandardMaterial[] = [];
+function createCubieMaterials(): THREE.MeshBasicMaterial[] {
+  const materials: THREE.MeshBasicMaterial[] = [];
   const faces: Face[] = ['R', 'L', 'U', 'D', 'F', 'B'];
 
   for (const _face of faces) {
     materials.push(
-      new THREE.MeshStandardMaterial({
-        color: INTERNAL_COLOR,
-        roughness: 0.25,
-        metalness: 0.05
+      new THREE.MeshBasicMaterial({
+        color: INTERNAL_COLOR
       })
     );
   }
