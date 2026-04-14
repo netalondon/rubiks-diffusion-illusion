@@ -470,8 +470,6 @@ def run_experiment(args: argparse.Namespace) -> None:
     spec = load_spec(spec_path)
     face_order = list(spec["primeImages"])
     face_to_index = {face_id: index for index, face_id in enumerate(face_order)}
-    train_views = build_train_views(experiment_config, args.negative_prompt, NegativeLabel)
-    selected_view_names = [view["name"] for view in train_views]
 
     device = rp.select_torch_device()
     if str(device) == "cpu" and not args.allow_cpu:
@@ -491,6 +489,8 @@ def run_experiment(args: argparse.Namespace) -> None:
     stable_diffusion = StableDiffusion(device, args.model_name)
     stable_diffusion.max_step = hyperparameters["max_step"]
     stable_diffusion.min_step = hyperparameters["min_step"]
+    train_views = build_train_views(experiment_config, args.negative_prompt, NegativeLabel)
+    selected_view_names = [view["name"] for view in train_views]
 
     output_root, run_root = make_run_dirs(experiment_slug, probe_root=probe_root, runs_root=runs_root)
     output_root.mkdir(parents=True, exist_ok=True)
