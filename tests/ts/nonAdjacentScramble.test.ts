@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { faceHasAdjacentColors } from '../src/cube/faceState';
-import { FACE_INFO, generateOfficialLikeScramble } from '../src/cube/moves';
+import { faceHasAdjacentColors } from '../../src/cube/faceState';
+import { FACE_INFO, generateOfficialLikeScramble } from '../../src/cube/moves';
 
 test('face adjacency ignores diagonal-only matches', () => {
   const face = [

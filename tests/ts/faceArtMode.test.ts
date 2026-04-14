@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { resolveFaceArtModeFromUrlSearch } from '../src/cube/faceArt';
+import { resolveFaceArtModeFromUrlSearch } from '../../src/cube/faceArt';
 
 test('face art mode defaults to photo', () => {
   assert.equal(resolveFaceArtModeFromUrlSearch(''), 'photo');

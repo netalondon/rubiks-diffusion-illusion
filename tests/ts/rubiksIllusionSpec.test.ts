@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
-import type { GeneratedScrambleRecord } from '../src/cube/generatedScramble';
-import { createRubiksIllusionSpec } from '../src/cube/illusionSpec';
+import type { GeneratedScrambleRecord } from '../../src/cube/generatedScramble';
+import { createRubiksIllusionSpec } from '../../src/cube/illusionSpec';
 
 test('createRubiksIllusionSpec exports solved and scrambled arrangements', async () => {
   const inputPath = path.resolve('public/generated/non-adjacent-scramble.json');

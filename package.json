@@ -6,15 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "node --import tsx --test scripts/*.test.ts",
+    "test": "npm run test:ts",
     "preview": "vite preview",
     "export:rubiks-illusion-spec": "node --import tsx scripts/exportRubiksIllusionSpec.ts",
     "inspect:saved-scramble": "node --import tsx scripts/inspectSavedScramble.ts",
     "find:nonadjacent-scramble": "node --import tsx scripts/findNonAdjacentScramble.ts",
     "setup:python-bridge": "python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt",
     "render:rubiks-illusion-spec": ".venv/bin/python scripts/render_rubiks_illusion_spec.py",
-    "test:python-bridge": ".venv/bin/python -m unittest scripts/render_rubiks_illusion_spec_test.py",
-    "test:nonadjacent-scramble": "node --import tsx --test scripts/*.test.ts"
+    "test:ts": "node --import tsx --test tests/ts/*.test.ts",
+    "test:python-bridge": ".venv/bin/python -m unittest discover -s tests/python -p '*_test.py'",
+    "test:nonadjacent-scramble": "npm run test:ts"
   },
   "devDependencies": {
     "@types/three": "^0.164.0",

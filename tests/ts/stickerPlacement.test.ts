@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
-import type { GeneratedScrambleRecord } from '../src/cube/generatedScramble';
-import { FACE_ORDER } from '../src/cube/moves';
-import { applyMovesAndProjectStickerPlacements } from '../src/cube/stickerPlacement';
+import type { GeneratedScrambleRecord } from '../../src/cube/generatedScramble';
+import { FACE_ORDER } from '../../src/cube/moves';
+import { applyMovesAndProjectStickerPlacements } from '../../src/cube/stickerPlacement';
 
 test('solved cube sticker placements are identity mappings', () => {
   const placementGrid = applyMovesAndProjectStickerPlacements([]);

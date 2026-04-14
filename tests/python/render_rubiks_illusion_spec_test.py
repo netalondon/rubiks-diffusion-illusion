@@ -7,7 +7,7 @@ from pathlib import Path
 
 from PIL import Image
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from python_bridge.rubiks_illusion_operator import load_source_faces, render_all_arrangements, render_arrangement
 
