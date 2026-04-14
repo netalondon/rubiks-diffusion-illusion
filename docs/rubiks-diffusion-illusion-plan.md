@@ -1,5 +1,11 @@
 # Rubik's Cube Diffusion Illusion: Step 1
 
+If you are resuming work in a fresh thread, start with:
+
+```text
+docs/current-status.md
+```
+
 This repo already has the most important non-ML part:
 
 - six prime images: [`src/assets/face-art/*.png`](../src/assets/face-art)
