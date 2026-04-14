@@ -25,7 +25,7 @@ The Rubik-specific tile movement and rotation logic is already implemented and v
 - The machine-readable arrangement export exists at `public/generated/rubiks-illusion-spec.json`.
 - The Python PIL renderer reproduces the web app behavior.
 - The differentiable torch renderer matches the PIL renderer closely enough for optimization experiments.
-- The Colab bootstrap and diffusion notebooks work conceptually; the main issues are quality, GPU availability, and memory limits.
+- The archived Colab/bootstrap notebooks still capture useful historical experiments, but the active workflow is now local-script driven.
 
 ## Best-Known Diffusion Setup
 
@@ -58,22 +58,25 @@ The more official-looking `256x256`, `hidden_dim=256`, `num_features=256` setup 
 
 The reduced `128x128` configuration worked and produced noticeably better results than the earlier over-regularized smooth raster experiments.
 
-## Current Notebook Roles
+## Archived Notebook Roles
 
-- [`notebooks/rubiks_colab_bootstrap.ipynb`](../notebooks/rubiks_colab_bootstrap.ipynb)
+- [`notebooks/archive/rubiks_colab_bootstrap.ipynb`](../notebooks/archive/rubiks_colab_bootstrap.ipynb)
   Runtime/bootstrap notebook. Use this to confirm the repo loads and the Rubik operator runs in Colab.
 
-- [`notebooks/rubiks_colab_optimization_sandbox.ipynb`](../notebooks/rubiks_colab_optimization_sandbox.ipynb)
+- [`notebooks/archive/rubiks_colab_optimization_sandbox.ipynb`](../notebooks/archive/rubiks_colab_optimization_sandbox.ipynb)
   Pre-diffusion notebook. Uses direct pixel optimization and toy targets to prove gradients flow through the Rubik operator.
 
-- [`notebooks/rubiks_colab_diffusion_smoke_test.ipynb`](../notebooks/rubiks_colab_diffusion_smoke_test.ipynb)
+- [`notebooks/archive/rubiks_colab_diffusion_smoke_test.ipynb`](../notebooks/archive/rubiks_colab_diffusion_smoke_test.ipynb)
   Small diffusion bridge notebook. Good for checking whether diffusion gradients affect Rubik-rendered outputs at all.
 
-- [`notebooks/rubiks_colab_diffusion_multiview_probe.ipynb`](../notebooks/rubiks_colab_diffusion_multiview_probe.ipynb)
+- [`notebooks/archive/rubiks_colab_diffusion_multiview_probe.ipynb`](../notebooks/archive/rubiks_colab_diffusion_multiview_probe.ipynb)
   Main interactive experiment notebook. This is where most prompt, weighting, and official-like setup comparisons happened.
 
-- [`notebooks/rubiks_colab_face_sweep.ipynb`](../notebooks/rubiks_colab_face_sweep.ipynb)
+- [`notebooks/archive/rubiks_colab_face_sweep.ipynb`](../notebooks/archive/rubiks_colab_face_sweep.ipynb)
   Hands-off overnight notebook. Starts from the proven `solved:R + scrambled:U` seed pair and sweeps from `3` to `12` target views.
+
+The maintained experiment path is now the local runner documented in
+[`docs/local-face-sweep.md`](./local-face-sweep.md).
 
 ## Official Repo Usage
 
@@ -103,24 +106,22 @@ We do **not** use the official geometry/operator logic. That part is replaced by
 
 ## Current External Blockers
 
-- Free-tier Colab GPU access is unreliable and can be throttled without a numeric quota dashboard.
-- Browser Colab and VS Code Colab differ enough that runtime/debugging UX is inconsistent.
-- This local machine is likely too VRAM-constrained to be the main diffusion training host.
+- Access to a stronger local or remote GPU machine is still the main blocker for the next full face sweep runs.
 
 ## Recommended Next Experiments
 
-If GPU access returns, the recommended order is:
+Once stronger compute is available, the recommended order is:
 
-1. Run the overnight sweep notebook and inspect `sweep-summary.json`.
+1. Run the local face sweep script and inspect `output/local-view-count-sweep/sweep-summary.json`.
 2. Identify the highest view count that still produces coherent structure.
-3. Take that highest stable count back into the multiview probe notebook for closer qualitative inspection.
+3. Re-run that stable count locally for closer qualitative inspection of saved previews and rendered outputs.
 4. Only after that, tune prompts, view order, or weighting further.
 
 ## Working Tree Note
 
 At the time this file was written, there were still local uncommitted edits in:
 
-- `notebooks/rubiks_colab_bootstrap.ipynb`
-- `notebooks/rubiks_colab_diffusion_multiview_probe.ipynb`
+- `notebooks/archive/rubiks_colab_bootstrap.ipynb`
+- `notebooks/archive/rubiks_colab_diffusion_multiview_probe.ipynb`
 
 Those may reflect active experiments and should be reviewed before overwriting or cleaning them in a fresh thread.

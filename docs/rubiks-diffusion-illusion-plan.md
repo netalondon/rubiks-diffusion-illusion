@@ -59,7 +59,7 @@ When using `?art=debug`, you can read that rotation visually:
 
 ## Why This Matters
 
-This is the exact custom arrangement operator you will eventually need inside a Colab notebook.
+This is the exact custom arrangement operator you will eventually need inside a diffusion training loop.
 
 Once we can describe the scramble as "take this tile from this face, rotate it like this, paste it here", we can do the same operation in PyTorch and optimize the six source images against prompts for:
 
@@ -70,8 +70,8 @@ Once we can describe the scramble as "take this tile from this face, rotate it l
 
 1. Verify the printed mapping feels intuitive by comparing a few cells against the live app.
 2. Create a no-AI baseline by manually designing six simple `3x3` label images and confirming the scramble rearranges them exactly as expected.
-3. Recreate the same tile permutation in Python or Colab.
-4. Only then plug a diffusion notebook into that custom operator.
+3. Recreate the same tile permutation in Python.
+4. Only then plug a local or remote diffusion training script into that custom operator.
 
 ## Step 2
 
@@ -87,7 +87,7 @@ That writes:
 public/generated/rubiks-illusion-spec.json
 ```
 
-This is the handoff file for Python or Colab. It contains:
+This is the handoff file for Python-based experiment code. It contains:
 
 - the six prime image ids (`U`, `D`, `L`, `R`, `F`, `B`)
 - the solved arrangement
@@ -132,7 +132,7 @@ The reusable Python operator now lives in:
 python_bridge/rubiks_illusion_operator.py
 ```
 
-This is the file we should plan to import in Colab.
+This is the file we should plan to import in local or remote experiment scripts.
 
 The important shape is:
 
@@ -149,45 +149,47 @@ Where:
 - `spec` is the parsed JSON from `public/generated/rubiks-illusion-spec.json`
 - `source_faces` is an in-memory dict like `{"U": pil_image_u, ..., "B": pil_image_b}`
 
-That means Colab will not need to know anything about cube moves or 3D logic.
+That means the training runner will not need to know anything about cube moves or 3D logic.
 It will only need to optimize six source images and call this operator.
 
-The first notebook for this flow lives at:
+The archived notebooks for this flow live at:
 
 ```text
-notebooks/rubiks_colab_bootstrap.ipynb
+notebooks/archive/rubiks_colab_bootstrap.ipynb
 ```
 
 It is intentionally small and only bootstraps the runtime, imports the operator, and renders solved/scrambled faces.
 
-The next learning notebook lives at:
+The next archived learning notebook lives at:
 
 ```text
-notebooks/rubiks_colab_optimization_sandbox.ipynb
+notebooks/archive/rubiks_colab_optimization_sandbox.ipynb
 ```
 
 It stays one step before diffusion: low resolution, toy targets, a differentiable torch version of the same Rubik's arrangement operator, and a small comparison between baseline optimization, stronger smoothness regularization, and an anchor-to-initialization penalty.
 
-The first diffusion-facing notebook lives at:
+The first archived diffusion-facing notebook lives at:
 
 ```text
-notebooks/rubiks_colab_diffusion_smoke_test.ipynb
+notebooks/archive/rubiks_colab_diffusion_smoke_test.ipynb
 ```
 
 It started as the first smoke test bridge into the official Diffusion Illusions code, and now also contains the smoother single-view variant: smooth raster source faces, explicit regularization, one primary target view (`solved:F`), and an export zip cell for getting results back out of Colab.
 
-The next diffusion notebook for comparing light multi-view pressure lives at:
+The next archived diffusion notebook for comparing light multi-view pressure lives at:
 
 ```text
-notebooks/rubiks_colab_diffusion_multiview_probe.ipynb
+notebooks/archive/rubiks_colab_diffusion_multiview_probe.ipynb
 ```
 
 It keeps the smoother raster setup, now includes switchable presets for lighter-vs-equal weighting and geometric-vs-semantic prompts, writes outputs to per-experiment folders, saves timestamped run snapshots under `output/colab-runs`, and includes the same export-archive cell so one Colab run produces both new results and a downloadable bundle.
 
-For unattended overnight scaling tests, use:
+For historical reference, the original unattended overnight scaling notebook lives at:
 
 ```text
-notebooks/rubiks_colab_face_sweep.ipynb
+notebooks/archive/rubiks_colab_face_sweep.ipynb
 ```
 
 It keeps the memory-safe `128x128` official-like Fourier setup that worked locally, starts from the already-proven `solved:R` + `scrambled:U` seed pair, then runs a hands-off sweep over individual target-view counts `3` through `12`, samples one training view per iteration like the official notebooks, shows previews every `50` iterations, scales the iteration budget as `view_count * 1000`, assigns the same cat watercolor prompt to all solved targets and the same dog watercolor prompt to all scrambled targets, and records both per-run artifacts and a `sweep-summary.json` file so you can see exactly where the setup still succeeds or fails.
+
+The maintained equivalent is the local script runner documented in `docs/local-face-sweep.md`.

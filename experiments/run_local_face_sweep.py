@@ -67,7 +67,7 @@ def parse_args() -> argparse.Namespace:
     run_parser.add_argument(
         "--view-counts",
         default="",
-        help="Comma-separated list of view counts to run. Defaults to the notebook sweep range.",
+        help="Comma-separated list of view counts to run. Defaults to the archived face-sweep range.",
     )
     run_parser.add_argument("--iterations-per-view", type=int, default=1000, help="Training iterations per selected view.")
     run_parser.add_argument("--display-interval", type=int, default=50, help="Preview interval in iterations.")
@@ -654,7 +654,10 @@ def run_experiment(args: argparse.Namespace) -> None:
                     run_render_dir / "scrambled",
                 )
 
-                shutil.copy2(REPO_ROOT / "notebooks" / "rubiks_colab_face_sweep.ipynb", run_root / "notebook-source.ipynb")
+                shutil.copy2(
+                    REPO_ROOT / "notebooks" / "archive" / "rubiks_colab_face_sweep.ipynb",
+                    run_root / "notebook-source.ipynb",
+                )
                 shutil.copy2(Path(__file__).resolve(), run_root / "script-source.py")
 
                 metadata = {
