@@ -655,7 +655,7 @@ def run_experiment(args: argparse.Namespace) -> None:
                 )
 
                 shutil.copy2(
-                    REPO_ROOT / "notebooks" / "archive" / "rubiks_colab_face_sweep.ipynb",
+                    REPO_ROOT / "experiments" / "local-face-sweep" / "rubiks_colab_face_sweep.ipynb",
                     run_root / "notebook-source.ipynb",
                 )
                 shutil.copy2(Path(__file__).resolve(), run_root / "script-source.py")

@@ -2,9 +2,8 @@
 
 This is the current primary workflow for the face sweep.
 
-The original Colab notebook has been archived at
-[`notebooks/archive/rubiks_colab_face_sweep.ipynb`](../../notebooks/archive/rubiks_colab_face_sweep.ipynb)
-for historical reference, but the maintained path is the local script runner.
+This experiment folder keeps both the maintained local runner and the older notebook version:
+[`rubiks_colab_face_sweep.ipynb`](./rubiks_colab_face_sweep.ipynb).
 
 ## How Progress Displays Locally
 

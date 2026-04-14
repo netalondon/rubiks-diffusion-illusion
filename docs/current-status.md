@@ -25,7 +25,7 @@ The Rubik-specific tile movement and rotation logic is already implemented and v
 - The machine-readable arrangement export exists at `public/generated/rubiks-illusion-spec.json`.
 - The Python PIL renderer reproduces the web app behavior.
 - The differentiable torch renderer matches the PIL renderer closely enough for optimization experiments.
-- The archived Colab/bootstrap notebooks still capture useful historical experiments, but the active workflow is now local-script driven.
+- The notebook-based experiments now live under `experiments/`, but the active workflow is still local-script driven.
 
 ## Best-Known Diffusion Setup
 
@@ -58,21 +58,21 @@ The more official-looking `256x256`, `hidden_dim=256`, `num_features=256` setup 
 
 The reduced `128x128` configuration worked and produced noticeably better results than the earlier over-regularized smooth raster experiments.
 
-## Archived Notebook Roles
+## Notebook Experiments
 
-- [`notebooks/archive/rubiks_colab_bootstrap.ipynb`](../notebooks/archive/rubiks_colab_bootstrap.ipynb)
+- [`experiments/bootstrap/rubiks_colab_bootstrap.ipynb`](../experiments/bootstrap/rubiks_colab_bootstrap.ipynb)
   Runtime/bootstrap notebook. Use this to confirm the repo loads and the Rubik operator runs in Colab.
 
-- [`notebooks/archive/rubiks_colab_optimization_sandbox.ipynb`](../notebooks/archive/rubiks_colab_optimization_sandbox.ipynb)
+- [`experiments/optimization-sandbox/rubiks_colab_optimization_sandbox.ipynb`](../experiments/optimization-sandbox/rubiks_colab_optimization_sandbox.ipynb)
   Pre-diffusion notebook. Uses direct pixel optimization and toy targets to prove gradients flow through the Rubik operator.
 
-- [`notebooks/archive/rubiks_colab_diffusion_smoke_test.ipynb`](../notebooks/archive/rubiks_colab_diffusion_smoke_test.ipynb)
+- [`experiments/diffusion-smoke-test/rubiks_colab_diffusion_smoke_test.ipynb`](../experiments/diffusion-smoke-test/rubiks_colab_diffusion_smoke_test.ipynb)
   Small diffusion bridge notebook. Good for checking whether diffusion gradients affect Rubik-rendered outputs at all.
 
-- [`notebooks/archive/rubiks_colab_diffusion_multiview_probe.ipynb`](../notebooks/archive/rubiks_colab_diffusion_multiview_probe.ipynb)
+- [`experiments/diffusion-multiview-probe/rubiks_colab_diffusion_multiview_probe.ipynb`](../experiments/diffusion-multiview-probe/rubiks_colab_diffusion_multiview_probe.ipynb)
   Main interactive experiment notebook. This is where most prompt, weighting, and official-like setup comparisons happened.
 
-- [`notebooks/archive/rubiks_colab_face_sweep.ipynb`](../notebooks/archive/rubiks_colab_face_sweep.ipynb)
+- [`experiments/local-face-sweep/rubiks_colab_face_sweep.ipynb`](../experiments/local-face-sweep/rubiks_colab_face_sweep.ipynb)
   Hands-off overnight notebook. Starts from the proven `solved:R + scrambled:U` seed pair and sweeps from `3` to `12` target views.
 
 The maintained experiment path is now the local runner documented in
@@ -121,7 +121,7 @@ Once stronger compute is available, the recommended order is:
 
 At the time this file was written, there were still local uncommitted edits in:
 
-- `notebooks/archive/rubiks_colab_bootstrap.ipynb`
-- `notebooks/archive/rubiks_colab_diffusion_multiview_probe.ipynb`
+- `experiments/bootstrap/rubiks_colab_bootstrap.ipynb`
+- `experiments/diffusion-multiview-probe/rubiks_colab_diffusion_multiview_probe.ipynb`
 
 Those may reflect active experiments and should be reviewed before overwriting or cleaning them in a fresh thread.

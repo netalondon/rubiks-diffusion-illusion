@@ -152,42 +152,42 @@ Where:
 That means the training runner will not need to know anything about cube moves or 3D logic.
 It will only need to optimize six source images and call this operator.
 
-The archived notebooks for this flow live at:
+The notebook-based experiments for this flow live at:
 
 ```text
-notebooks/archive/rubiks_colab_bootstrap.ipynb
+experiments/bootstrap/rubiks_colab_bootstrap.ipynb
 ```
 
 It is intentionally small and only bootstraps the runtime, imports the operator, and renders solved/scrambled faces.
 
-The next archived learning notebook lives at:
+The next notebook experiment lives at:
 
 ```text
-notebooks/archive/rubiks_colab_optimization_sandbox.ipynb
+experiments/optimization-sandbox/rubiks_colab_optimization_sandbox.ipynb
 ```
 
 It stays one step before diffusion: low resolution, toy targets, a differentiable torch version of the same Rubik's arrangement operator, and a small comparison between baseline optimization, stronger smoothness regularization, and an anchor-to-initialization penalty.
 
-The first archived diffusion-facing notebook lives at:
+The first diffusion-facing notebook experiment lives at:
 
 ```text
-notebooks/archive/rubiks_colab_diffusion_smoke_test.ipynb
+experiments/diffusion-smoke-test/rubiks_colab_diffusion_smoke_test.ipynb
 ```
 
 It started as the first smoke test bridge into the official Diffusion Illusions code, and now also contains the smoother single-view variant: smooth raster source faces, explicit regularization, one primary target view (`solved:F`), and an export zip cell for getting results back out of Colab.
 
-The next archived diffusion notebook for comparing light multi-view pressure lives at:
+The next diffusion notebook experiment for comparing light multi-view pressure lives at:
 
 ```text
-notebooks/archive/rubiks_colab_diffusion_multiview_probe.ipynb
+experiments/diffusion-multiview-probe/rubiks_colab_diffusion_multiview_probe.ipynb
 ```
 
 It keeps the smoother raster setup, now includes switchable presets for lighter-vs-equal weighting and geometric-vs-semantic prompts, writes outputs to per-experiment folders, saves timestamped run snapshots under `output/colab-runs`, and includes the same export-archive cell so one Colab run produces both new results and a downloadable bundle.
 
-For historical reference, the original unattended overnight scaling notebook lives at:
+The original unattended overnight scaling notebook now lives alongside the maintained local runner at:
 
 ```text
-notebooks/archive/rubiks_colab_face_sweep.ipynb
+experiments/local-face-sweep/rubiks_colab_face_sweep.ipynb
 ```
 
 It keeps the memory-safe `128x128` official-like Fourier setup that worked locally, starts from the already-proven `solved:R` + `scrambled:U` seed pair, then runs a hands-off sweep over individual target-view counts `3` through `12`, samples one training view per iteration like the official notebooks, shows previews every `50` iterations, scales the iteration budget as `view_count * 1000`, assigns the same cat watercolor prompt to all solved targets and the same dog watercolor prompt to all scrambled targets, and records both per-run artifacts and a `sweep-summary.json` file so you can see exactly where the setup still succeeds or fails.
