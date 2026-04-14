@@ -1,6 +1,8 @@
-# Install a GPU-capable torch build separately for your machine before this file.
+# PyTorch is intentionally not pinned here because the right build depends on
+# your machine, CUDA version, and whether you want CPU-only or GPU support.
+# Install a machine-appropriate torch build first, then install this file.
 # Example flow:
-#   pip install torch ...
+#   pip install torch
 #   pip install -r requirements-local-face-sweep.txt
 
 Pillow>=10.0.0

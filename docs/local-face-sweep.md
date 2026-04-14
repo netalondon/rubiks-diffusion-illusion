@@ -33,6 +33,8 @@ You need:
 - a GPU-capable PyTorch install that matches your machine
 - the Python packages in [`requirements-local-face-sweep.txt`](../requirements-local-face-sweep.txt)
 
+PyTorch is intentionally **not** listed in `requirements-local-face-sweep.txt`, because the correct wheel depends on your machine and whether you want CUDA or CPU-only.
+
 Suggested setup:
 
 ```bash
@@ -44,6 +46,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # install a torch build that matches your CUDA / driver setup first
+pip install torch
 pip install -r requirements-local-face-sweep.txt
 ```
 
