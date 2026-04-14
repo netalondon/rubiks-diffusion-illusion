@@ -24,7 +24,7 @@ from python_bridge.live_preview import (
 
 DEFAULT_SPEC_PATH = REPO_ROOT / "public" / "generated" / "rubiks-illusion-spec.json"
 DEFAULT_SOURCE_DIR = REPO_ROOT / "src" / "assets" / "face-art"
-DEFAULT_OFFICIAL_REPO_DIR = REPO_ROOT.parent / "Diffusion-Illusions"
+DEFAULT_OFFICIAL_REPO_DIR = REPO_ROOT / "external" / "Diffusion-Illusions"
 DEFAULT_PROBE_ROOT = REPO_ROOT / "output" / "local-diffusion-multiview-probe"
 DEFAULT_RUNS_ROOT = REPO_ROOT / "output" / "local-runs"
 LIVE_DIR_NAME = "live"

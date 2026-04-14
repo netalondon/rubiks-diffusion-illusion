@@ -15,7 +15,12 @@ The local script mirrors the notebook's core behavior:
 This experiment uses the same Python stack as the local face sweep.
 
 ```bash
+cd /home/netalondon/projects
+git clone https://github.com/netalondon/rubiks-diffusion-illusion.git
 cd /home/netalondon/projects/rubiks-diffusion-illusion
+mkdir -p external
+git clone https://github.com/RyannDaGreat/Diffusion-Illusions.git external/Diffusion-Illusions
+
 python3 -m venv .venv
 source .venv/bin/activate
 
@@ -31,7 +36,7 @@ cd /home/netalondon/projects/rubiks-diffusion-illusion
 source .venv/bin/activate
 
 python3 experiments/diffusion-multiview-probe/run_diffusion_multiview_probe.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions
 ```
 
 Useful variants:
@@ -39,17 +44,17 @@ Useful variants:
 ```bash
 # choose a different preset from the notebook
 python3 experiments/diffusion-multiview-probe/run_diffusion_multiview_probe.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions \
   --experiment geometric_equal
 
 # use the raster parameterization instead of the official-like Fourier one
 python3 experiments/diffusion-multiview-probe/run_diffusion_multiview_probe.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions \
   --parameterization-mode smooth_raster
 
 # keep the viewer off if you only want file output
 python3 experiments/diffusion-multiview-probe/run_diffusion_multiview_probe.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions \
   --no-serve-viewer
 ```
 

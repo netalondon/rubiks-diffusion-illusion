@@ -119,9 +119,11 @@ Suggested setup:
 
 ```bash
 cd /home/netalondon/projects
-git clone https://github.com/RyannDaGreat/Diffusion-Illusions.git
-
+git clone https://github.com/netalondon/rubiks-diffusion-illusion.git
 cd /home/netalondon/projects/rubiks-diffusion-illusion
+mkdir -p external
+git clone https://github.com/RyannDaGreat/Diffusion-Illusions.git external/Diffusion-Illusions
+
 python3 -m venv .venv
 source .venv/bin/activate
 
@@ -137,7 +139,7 @@ cd /home/netalondon/projects/rubiks-diffusion-illusion
 source .venv/bin/activate
 
 python3 experiments/local-face-sweep/run_local_face_sweep.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions
 ```
 
 Useful variants:
@@ -145,22 +147,22 @@ Useful variants:
 ```bash
 # run just one count while testing the setup
 python3 experiments/local-face-sweep/run_local_face_sweep.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions \
   --view-counts 3
 
 # preview more often
 python3 experiments/local-face-sweep/run_local_face_sweep.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions \
   --display-interval 10
 
 # refresh the terminal iteration line more often
 python3 experiments/local-face-sweep/run_local_face_sweep.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions \
   --progress-interval 1
 
 # keep the viewer off if you only want file output
 python3 experiments/local-face-sweep/run_local_face_sweep.py run \
-  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
+  --official-repo-dir /home/netalondon/projects/rubiks-diffusion-illusion/external/Diffusion-Illusions \
   --no-serve-viewer
 ```
 
