@@ -280,6 +280,7 @@ VIEWER_HTML = """<!doctype html>
       const statusUrl = "../live/status.json";
       const historyUrl = "../live/history.json";
       let renderedEntryCount = 0;
+      let lastHistorySignature = "";
 
       function withBust(path) {
         return `../live/${path}?t=${Date.now()}`;
@@ -314,6 +315,7 @@ VIEWER_HTML = """<!doctype html>
         if (!entries || entries.length === 0) {
           timeline.innerHTML = '<div class="panel empty">Waiting for the first preview snapshot.</div>';
           renderedEntryCount = 0;
+          lastHistorySignature = "";
           return;
         }
 
@@ -409,7 +411,12 @@ VIEWER_HTML = """<!doctype html>
           statusLink.textContent = status.run_root || "status.json";
           statusLink.href = statusUrl;
 
-          renderTimeline(history.entries || []);
+          const historyEntries = history.entries || [];
+          const historySignature = JSON.stringify(historyEntries);
+          if (historySignature !== lastHistorySignature) {
+            renderTimeline(historyEntries);
+            lastHistorySignature = historySignature;
+          }
         } catch (error) {
           setText("phase", "waiting");
           setText("message", `Waiting for live output: ${error}`);
