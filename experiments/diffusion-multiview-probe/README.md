@@ -21,7 +21,7 @@ source .venv/bin/activate
 
 # install a torch build that matches your machine first
 python3 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
-python3 -m pip install -r experiments/diffusion-multiview-probe/requirements.txt
+python3 -m pip install -r experiments/requirements.txt
 ```
 
 ## Run

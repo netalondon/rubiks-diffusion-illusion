@@ -45,9 +45,9 @@ You need:
 - this repo
 - a local checkout of the official Diffusion-Illusions repo
 - a GPU-capable PyTorch install that matches your machine
-- the Python packages in [`requirements.txt`](./requirements.txt)
+- the Python packages in [`../requirements.txt`](../requirements.txt)
 
-PyTorch is intentionally **not** listed in `requirements.txt`, because the correct wheel depends on your machine and whether you want CUDA or CPU-only.
+PyTorch is intentionally **not** listed in `experiments/requirements.txt`, because the correct wheel depends on your machine and whether you want CUDA or CPU-only.
 
 ## Picking A Torch Install
 
@@ -127,7 +127,7 @@ source .venv/bin/activate
 
 # install a torch build that matches your machine first
 python3 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
-python3 -m pip install -r experiments/local-face-sweep/requirements.txt
+python3 -m pip install -r experiments/requirements.txt
 ```
 
 ## Run The Sweep

@@ -1,1 +1,1 @@
--r ../local-face-sweep/requirements.txt
+-r ../requirements.txt
