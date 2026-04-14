@@ -18,6 +18,29 @@ Optimize the six Rubik's cube face images so that:
 
 The Rubik-specific tile movement and rotation logic is already implemented and verified. The open problem is the diffusion optimization side.
 
+## What We Clarified
+
+- The face sweep is **learning six source face images**, not generating one final image directly.
+- The trainable parameters are the six learnable face representations; Stable Diffusion's own weights stay fixed.
+- The current runner imports `StableDiffusion` and `LearnableImageFourier` from the official Diffusion-Illusions repo, while the actual checkpoint is still the standard Stable Diffusion model such as `runwayml/stable-diffusion-v1-5`.
+- In each iteration, the script renders one current Rubik view from the shared source faces, feeds that rendered image into `stable_diffusion.train_step(...)`, gets back a gradient-style correction signal, and applies that signal to the shared source faces with `SGD`.
+- Normal Stable Diffusion generation is different: it starts from random latent noise and repeatedly denoises that noise into one image for one prompt.
+
+## Key Insight: Why We Optimize Shared Faces
+
+The most important takeaway is that a Rubik view is a **derived image**, not the true thing we are solving for.
+
+If we tried to generate or denoise one rendered view at a time, each generated view could look individually plausible while still being **mutually inconsistent** with the others. Different views could imply contradictory source-face pixels.
+
+That is the core reason this project needs a shared optimization loop:
+
+- the real unknowns are the six source faces
+- every solved/scrambled training view is derived from those same six faces
+- a good update must improve the shared source faces so that many views become better together
+- there is no clean inverse that takes one pretty generated derived view and uniquely recovers the six underlying source faces
+
+This is also why plain ComfyUI inference is not a drop-in replacement for the current method. Standard ComfyUI workflows are built around running pretrained models to produce outputs, while this project uses Stable Diffusion's internals as a fixed differentiable critic inside a custom PyTorch training loop.
+
 ## What Is Solid
 
 - The browser app's scramble mapping is correct.
