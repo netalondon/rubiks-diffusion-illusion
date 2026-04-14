@@ -9,18 +9,27 @@ The terminal does **not** try to print images inline.
 Instead, the local runner does two things:
 
 - prints text progress in the terminal
-- writes preview PNGs plus a `status.json` file under `output/local-view-count-sweep/live`
+- writes preview PNGs plus `status.json` and `history.json` under `output/local-view-count-sweep/live`
 
 If you start the built-in viewer server, you can watch the latest previews in a browser at:
 
 - `http://127.0.0.1:8765/viewer/index.html`
 
-The viewer polls `live/status.json` every few seconds and refreshes:
+The viewer polls `live/status.json` and `live/history.json` every few seconds.
 
-- the selected training-view grid
-- the current source-face sheet
-- the latest solved-face contact sheet
-- the latest scrambled-face contact sheet
+At the top of the page it shows:
+
+- the current phase
+- the current view count
+- the latest iteration
+- the latest status message
+
+Below that it renders a notebook-style timeline:
+
+- each preview snapshot becomes a new row
+- rows are appended downward over time
+- each row shows the training-view grid, the source-face sheet, and the scrambled-face sheet
+- solved faces are intentionally omitted from the timeline because in the current spec they are identical to source faces
 
 That gives a notebook-like feedback loop, but through files and a browser instead of notebook cells.
 
@@ -151,7 +160,9 @@ Shared sweep output:
 
 - `output/local-view-count-sweep/sweep-summary.json`
 - `output/local-view-count-sweep/live/status.json`
+- `output/local-view-count-sweep/live/history.json`
 - `output/local-view-count-sweep/live/*.png`
+- `output/local-view-count-sweep/live/history/...`
 - `output/local-view-count-sweep/viewer/index.html`
 
 Per-run output:
