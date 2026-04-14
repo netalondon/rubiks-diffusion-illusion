@@ -71,6 +71,12 @@ def parse_args() -> argparse.Namespace:
     )
     run_parser.add_argument("--iterations-per-view", type=int, default=1000, help="Training iterations per selected view.")
     run_parser.add_argument("--display-interval", type=int, default=50, help="Preview interval in iterations.")
+    run_parser.add_argument(
+        "--progress-interval",
+        type=int,
+        default=5,
+        help="How often to refresh the terminal iteration line.",
+    )
     run_parser.add_argument("--learnable-size", type=int, default=128, help="Size of each learnable source face.")
     run_parser.add_argument("--fourier-hidden-dim", type=int, default=128, help="Hidden dim for LearnableImageFourier.")
     run_parser.add_argument("--fourier-num-features", type=int, default=128, help="Fourier feature count.")
@@ -205,8 +211,6 @@ def write_live_status(
     current_iteration: int | None = None,
     total_iterations: int | None = None,
     training_preview: str | None = None,
-    source_preview: str | None = None,
-    scrambled_preview: str | None = None,
     extra: dict[str, Any] | None = None,
 ) -> None:
     payload: dict[str, Any] = {
@@ -219,8 +223,6 @@ def write_live_status(
         "total_iterations": total_iterations,
         "run_root": str(run_root) if run_root else None,
         "training_preview": training_preview,
-        "source_preview": source_preview,
-        "scrambled_preview": scrambled_preview,
     }
     if extra:
         payload.update(extra)
@@ -279,7 +281,6 @@ def write_preview_images(
     current_iteration: int,
     current_view_count: int,
     train_views: list[dict[str, Any]],
-    final_source_faces: dict[str, Any],
     rendered_cpu: dict[str, dict[str, Any]],
     tensor_to_pil: Any,
 ) -> dict[str, str]:
@@ -293,40 +294,22 @@ def write_preview_images(
         for view in train_views
     ]
     training_snapshot = preview_dir / f"iter-{current_iteration:05d}-training-views.png"
-    source_snapshot = preview_dir / f"iter-{current_iteration:05d}-source-faces.png"
-    scrambled_snapshot = preview_dir / f"iter-{current_iteration:05d}-scrambled.png"
     history_training = history_dir / f"iter-{current_iteration:05d}-training-views.png"
-    history_source = history_dir / f"iter-{current_iteration:05d}-source-faces.png"
-    history_scrambled = history_dir / f"iter-{current_iteration:05d}-scrambled.png"
 
     save_labeled_image_grid(
         training_items,
         training_snapshot,
         title=f"{current_view_count} views preview at iter {current_iteration}",
-    )
-    save_contact_sheet(final_source_faces, source_snapshot)
-    save_contact_sheet(
-        {face_id: tensor_to_pil(image) for face_id, image in rendered_cpu["scrambled"].items()},
-        scrambled_snapshot,
+        max_cols=3,
     )
     shutil.copy2(training_snapshot, history_training)
-    shutil.copy2(source_snapshot, history_source)
-    shutil.copy2(scrambled_snapshot, history_scrambled)
 
     live_training = live_dir / "training-preview.png"
-    live_source = live_dir / "source-preview.png"
-    live_scrambled = live_dir / "scrambled-preview.png"
     shutil.copy2(training_snapshot, live_training)
-    shutil.copy2(source_snapshot, live_source)
-    shutil.copy2(scrambled_snapshot, live_scrambled)
 
     return {
         "training_preview": live_training.name,
-        "source_preview": live_source.name,
-        "scrambled_preview": live_scrambled.name,
         "history_training_preview": relative_to_root(history_training, live_dir),
-        "history_source_preview": relative_to_root(history_source, live_dir),
-        "history_scrambled_preview": relative_to_root(history_scrambled, live_dir),
     }
 
 
@@ -344,7 +327,11 @@ def optional_viewer_server(sweep_root: Path, *, host: str, port: int, enabled: b
         yield None
         return
 
-    handler = partial(SimpleHTTPRequestHandler, directory=str(sweep_root))
+    class QuietSimpleHTTPRequestHandler(SimpleHTTPRequestHandler):
+        def log_message(self, format: str, *args: object) -> None:
+            return
+
+    handler = partial(QuietSimpleHTTPRequestHandler, directory=str(sweep_root))
     server = ThreadingHTTPServer((host, port), handler)
     thread = Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -367,6 +354,18 @@ def cleanup_after_run(torch_module: Any) -> None:
     if torch_module.cuda.is_available():
         torch_module.cuda.empty_cache()
         torch_module.cuda.ipc_collect()
+
+
+def update_progress_line(view_count: int, current_iteration: int, total_iterations: int, sampled_views: list[str]) -> None:
+    sampled = ",".join(sampled_views) if sampled_views else "-"
+    message = f"\r[{view_count} views] iter {current_iteration}/{total_iterations} | sampled={sampled}"
+    sys.stdout.write(message.ljust(120))
+    sys.stdout.flush()
+
+
+def clear_progress_line() -> None:
+    sys.stdout.write("\r" + (" " * 140) + "\r")
+    sys.stdout.flush()
 
 
 def run_experiment(args: argparse.Namespace) -> None:
@@ -449,6 +448,7 @@ def run_experiment(args: argparse.Namespace) -> None:
         enabled=args.serve_viewer,
         open_viewer=args.open_viewer,
     ):
+        progress_interval = max(1, args.progress_interval)
         write_live_status(
             live_dir,
             phase="starting",
@@ -510,8 +510,7 @@ def run_experiment(args: argparse.Namespace) -> None:
                 start_time = time.time()
                 last_sampled_names: list[str] = []
 
-                initial_source_batch, initial_rendered = get_current_state()
-                initial_source_faces = batch_to_pil_face_dict(initial_source_batch.detach().cpu(), face_order)
+                _, initial_rendered = get_current_state()
                 initial_rendered_cpu = clone_rendered_to_cpu(initial_rendered)
                 preview_paths = write_preview_images(
                     live_dir=live_dir,
@@ -519,7 +518,6 @@ def run_experiment(args: argparse.Namespace) -> None:
                     current_iteration=0,
                     current_view_count=view_count,
                     train_views=train_views,
-                    final_source_faces=initial_source_faces,
                     rendered_cpu=initial_rendered_cpu,
                     tensor_to_pil=tensor_to_pil,
                 )
@@ -533,8 +531,6 @@ def run_experiment(args: argparse.Namespace) -> None:
                     current_iteration=0,
                     total_iterations=num_iter,
                     training_preview=preview_paths["training_preview"],
-                    source_preview=preview_paths["source_preview"],
-                    scrambled_preview=preview_paths["scrambled_preview"],
                 )
                 append_history_entry(
                     live_dir,
@@ -548,8 +544,6 @@ def run_experiment(args: argparse.Namespace) -> None:
                         "total_iterations": num_iter,
                         "updated_at_utc": utc_timestamp(),
                         "training_preview": preview_paths["history_training_preview"],
-                        "source_preview": preview_paths["history_source_preview"],
-                        "scrambled_preview": preview_paths["history_scrambled_preview"],
                         "last_sampled_views": [],
                     },
                 )
@@ -571,18 +565,21 @@ def run_experiment(args: argparse.Namespace) -> None:
 
                     optimizer.step()
 
-                    if (iter_num + 1) % args.display_interval == 0 or iter_num == 0:
-                        print(f"Completed iteration {iter_num + 1}/{num_iter} | sampled={last_sampled_names}")
-                        preview_source_batch, preview_rendered = get_current_state()
-                        preview_source_faces = batch_to_pil_face_dict(preview_source_batch.detach().cpu(), face_order)
+                    current_iteration = iter_num + 1
+                    if current_iteration == 1 or current_iteration % progress_interval == 0 or current_iteration == num_iter:
+                        update_progress_line(view_count, current_iteration, num_iter, last_sampled_names)
+
+                    if current_iteration % args.display_interval == 0 or iter_num == 0:
+                        clear_progress_line()
+                        print(f"Saved preview at iteration {current_iteration}/{num_iter} | sampled={last_sampled_names}")
+                        _, preview_rendered = get_current_state()
                         preview_rendered_cpu = clone_rendered_to_cpu(preview_rendered)
                         preview_paths = write_preview_images(
                             live_dir=live_dir,
                             run_root=run_root,
-                            current_iteration=iter_num + 1,
+                            current_iteration=current_iteration,
                             current_view_count=view_count,
                             train_views=train_views,
-                            final_source_faces=preview_source_faces,
                             rendered_cpu=preview_rendered_cpu,
                             tensor_to_pil=tensor_to_pil,
                         )
@@ -593,32 +590,30 @@ def run_experiment(args: argparse.Namespace) -> None:
                             selected_views=selected_view_names,
                             run_root=run_root,
                             current_view_count=view_count,
-                            current_iteration=iter_num + 1,
+                            current_iteration=current_iteration,
                             total_iterations=num_iter,
                             extra={"last_sampled_views": last_sampled_names},
                             training_preview=preview_paths["training_preview"],
-                            source_preview=preview_paths["source_preview"],
-                            scrambled_preview=preview_paths["scrambled_preview"],
                         )
                         append_history_entry(
                             live_dir,
                             {
                                 "entry_type": "preview",
-                                "title": f"{view_count} views · iter {iter_num + 1}",
-                                "message": f"Preview at iteration {iter_num + 1}.",
+                                "title": f"{view_count} views · iter {current_iteration}",
+                                "message": f"Preview at iteration {current_iteration}.",
                                 "selected_views": selected_view_names,
                                 "current_view_count": view_count,
-                                "current_iteration": iter_num + 1,
+                                "current_iteration": current_iteration,
                                 "total_iterations": num_iter,
                                 "updated_at_utc": utc_timestamp(),
                                 "training_preview": preview_paths["history_training_preview"],
-                                "source_preview": preview_paths["history_source_preview"],
-                                "scrambled_preview": preview_paths["history_scrambled_preview"],
                                 "last_sampled_views": last_sampled_names,
                             },
                         )
+                        update_progress_line(view_count, current_iteration, num_iter, last_sampled_names)
 
                 final_source_batch, final_rendered = get_current_state()
+                clear_progress_line()
                 final_source_faces = batch_to_pil_face_dict(final_source_batch.detach().cpu(), face_order)
                 final_rendered_cpu = clone_rendered_to_cpu(final_rendered)
                 preview_paths = write_preview_images(
@@ -627,7 +622,6 @@ def run_experiment(args: argparse.Namespace) -> None:
                     current_iteration=num_iter,
                     current_view_count=view_count,
                     train_views=train_views,
-                    final_source_faces=final_source_faces,
                     rendered_cpu=final_rendered_cpu,
                     tensor_to_pil=tensor_to_pil,
                 )
@@ -725,8 +719,6 @@ def run_experiment(args: argparse.Namespace) -> None:
                     total_iterations=num_iter,
                     extra={"last_sampled_views": last_sampled_names},
                     training_preview=preview_paths["training_preview"],
-                    source_preview=preview_paths["source_preview"],
-                    scrambled_preview=preview_paths["scrambled_preview"],
                 )
                 append_history_entry(
                     live_dir,
@@ -740,6 +732,7 @@ def run_experiment(args: argparse.Namespace) -> None:
                     },
                 )
             except Exception as error:
+                clear_progress_line()
                 result = {
                     "status": "failed",
                     "timestamp_utc": utc_timestamp(),

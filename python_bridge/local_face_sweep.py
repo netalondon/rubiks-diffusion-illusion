@@ -199,12 +199,6 @@ VIEWER_HTML = """<!doctype html>
         margin-bottom: 10px;
       }
 
-      .image-strip {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-      }
-
       figure {
         margin: 0;
       }
@@ -215,6 +209,10 @@ VIEWER_HTML = """<!doctype html>
         border-radius: 14px;
         border: 1px solid var(--border);
         background: #eee8de;
+      }
+
+      .single-preview {
+        margin-top: 12px;
       }
 
       figcaption {
@@ -240,10 +238,6 @@ VIEWER_HTML = """<!doctype html>
       }
 
       @media (max-width: 920px) {
-        .image-strip {
-          grid-template-columns: 1fr;
-        }
-
         .row-head {
           flex-direction: column;
         }
@@ -285,7 +279,7 @@ VIEWER_HTML = """<!doctype html>
         <div class="views" id="selected-views"></div>
         <div class="sampled" id="sampled-views"></div>
         <div class="footer-note">
-          Source faces are shown in the timeline, and solved faces are omitted there because in the current spec they are identical.
+          The timeline focuses on the training-view preview only, so each snapshot can stay larger and easier to compare.
           Live status file: <a id="status-link" href="../live/status.json">status.json</a>
         </div>
       </div>
@@ -373,20 +367,10 @@ VIEWER_HTML = """<!doctype html>
               <div class="views">
                 ${(entry.selected_views || []).map((view) => `<span class="chip">${view}</span>`).join("")}
               </div>
-              <div class="image-strip">
-                <figure>
-                  <img src="${withBust(entry.training_preview)}" alt="Training views preview">
-                  <figcaption>Training views</figcaption>
-                </figure>
-                <figure>
-                  <img src="${withBust(entry.source_preview)}" alt="Source faces preview">
-                  <figcaption>Source faces</figcaption>
-                </figure>
-                <figure>
-                  <img src="${withBust(entry.scrambled_preview)}" alt="Scrambled faces preview">
-                  <figcaption>Scrambled faces</figcaption>
-                </figure>
-              </div>
+              <figure class="single-preview">
+                <img src="${withBust(entry.training_preview)}" alt="Training views preview">
+                <figcaption>Training views</figcaption>
+              </figure>
             </article>
           `;
         }).join("");
