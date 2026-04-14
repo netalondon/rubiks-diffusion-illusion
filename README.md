@@ -35,6 +35,7 @@ npm run render:rubiks-illusion-spec
 
 ## Read next
 
+- [Official Diffusion Illusions site](https://diffusionillusions.com/)
 - [`docs/current-status.md`](./docs/current-status.md) for the latest handoff
 - [`docs/diffusion-illusion-technique.md`](./docs/diffusion-illusion-technique.md) for the optimization approach
 - [`docs/rubiks-diffusion-illusion-plan.md`](./docs/rubiks-diffusion-illusion-plan.md) for deeper project context
