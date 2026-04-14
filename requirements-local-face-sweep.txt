@@ -1,0 +1,20 @@
+# Install a GPU-capable torch build separately for your machine before this file.
+# Example flow:
+#   pip install torch ...
+#   pip install -r requirements-local-face-sweep.txt
+
+Pillow>=10.0.0
+diffusers
+transformers
+rp
+easydict
+einops
+icecream
+imageio
+opencv-python
+pandas
+scipy
+tensorboard
+tensorboardX
+tqdm
+py3nvml
