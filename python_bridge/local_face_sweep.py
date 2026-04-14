@@ -336,6 +336,7 @@ VIEWER_HTML = """<!doctype html>
         }
 
         const wasNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 140;
+        const previousScrollY = window.scrollY;
         timeline.innerHTML = entries.map((entry) => {
           if (entry.entry_type !== "preview") {
             return `
@@ -377,6 +378,10 @@ VIEWER_HTML = """<!doctype html>
 
         if (entries.length > renderedEntryCount && wasNearBottom) {
           window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+        } else if (!wasNearBottom) {
+          requestAnimationFrame(() => {
+            window.scrollTo(0, previousScrollY);
+          });
         }
         renderedEntryCount = entries.length;
       }
