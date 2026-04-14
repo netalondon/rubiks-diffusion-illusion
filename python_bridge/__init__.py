@@ -1,13 +1,30 @@
-from .rubiks_illusion_operator import (
-    FACE_FILE_NAMES,
-    load_source_faces,
-    load_spec,
-    render_all_arrangements,
-    render_arrangement,
-    render_face_grid,
-    save_contact_sheet,
-    save_rendered_faces,
-)
+from __future__ import annotations
+
+_BASE_EXPORTS = [
+    "FACE_FILE_NAMES",
+    "load_source_faces",
+    "load_spec",
+    "render_all_arrangements",
+    "render_arrangement",
+    "render_face_grid",
+    "save_contact_sheet",
+    "save_rendered_faces",
+]
+_BASE_IMPORT_ERROR: ModuleNotFoundError | None = None
+
+try:
+    from .rubiks_illusion_operator import (
+        FACE_FILE_NAMES,
+        load_source_faces,
+        load_spec,
+        render_all_arrangements,
+        render_arrangement,
+        render_face_grid,
+        save_contact_sheet,
+        save_rendered_faces,
+    )
+except ModuleNotFoundError as error:
+    _BASE_IMPORT_ERROR = error
 
 _TORCH_EXPORTS = [
     "batch_to_pil_face_dict",
@@ -35,29 +52,24 @@ try:
         tensor_to_pil,
     )
 except ModuleNotFoundError as error:
-    if error.name != "torch":
-        raise
     _TORCH_IMPORT_ERROR = error
 
-__all__ = [
-    "FACE_FILE_NAMES",
-    "load_source_faces",
-    "load_spec",
-    "render_all_arrangements",
-    "render_arrangement",
-    "render_face_grid",
-    "save_contact_sheet",
-    "save_rendered_faces",
-]
-
+__all__ = []
+if _BASE_IMPORT_ERROR is None:
+    __all__.extend(_BASE_EXPORTS)
 if _TORCH_IMPORT_ERROR is None:
     __all__.extend(_TORCH_EXPORTS)
 
 
 def __getattr__(name: str) -> object:
+    if name in _BASE_EXPORTS and _BASE_IMPORT_ERROR is not None:
+        raise ModuleNotFoundError(
+            "The PIL-backed python_bridge helpers need their image dependencies installed. "
+            "Install the project requirements first, then retry."
+        ) from _BASE_IMPORT_ERROR
     if name in _TORCH_EXPORTS and _TORCH_IMPORT_ERROR is not None:
         raise ModuleNotFoundError(
-            "The torch-backed python_bridge helpers require PyTorch to be installed. "
-            "Install a machine-appropriate torch build first, then retry."
+            "The torch-backed python_bridge helpers need their numerical dependencies installed. "
+            "Install the project requirements plus a machine-appropriate torch build first, then retry."
         ) from _TORCH_IMPORT_ERROR
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

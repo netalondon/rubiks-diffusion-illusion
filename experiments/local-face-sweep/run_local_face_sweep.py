@@ -25,7 +25,6 @@ from python_bridge.local_face_sweep import (
     write_json,
     write_live_viewer,
 )
-from python_bridge.rubiks_illusion_operator import load_spec, save_contact_sheet
 
 DEFAULT_SPEC_PATH = REPO_ROOT / "public" / "generated" / "rubiks-illusion-spec.json"
 DEFAULT_SOURCE_DIR = REPO_ROOT / "src" / "assets" / "face-art"
@@ -341,6 +340,8 @@ def clear_progress_line() -> None:
 
 
 def run_experiment(args: argparse.Namespace) -> None:
+    from python_bridge import load_spec
+
     spec_path = Path(args.spec).resolve()
     source_dir = Path(args.source_dir).resolve()
     official_repo_dir = Path(args.official_repo_dir).resolve()

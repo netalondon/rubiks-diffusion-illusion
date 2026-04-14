@@ -10,8 +10,6 @@ from pathlib import Path
 from threading import Thread
 from typing import Any, Mapping, Sequence
 
-from PIL import Image, ImageColor, ImageDraw, ImageFont
-
 VIEWER_HTML = """<!doctype html>
 <html lang="en">
   <head>
@@ -501,7 +499,9 @@ def optional_viewer_server(
         server.server_close()
 
 
-def _load_font(size: int) -> ImageFont.ImageFont | ImageFont.FreeTypeFont:
+def _load_font(size: int) -> Any:
+    from PIL import ImageFont
+
     try:
         return ImageFont.truetype("DejaVuSans.ttf", size=size)
     except OSError:
@@ -509,7 +509,7 @@ def _load_font(size: int) -> ImageFont.ImageFont | ImageFont.FreeTypeFont:
 
 
 def save_labeled_image_grid(
-    items: Sequence[tuple[str, Image.Image]],
+    items: Sequence[tuple[str, Any]],
     output_path: str | Path,
     *,
     title: str,
@@ -518,13 +518,15 @@ def save_labeled_image_grid(
     title_color: str = "#1d1a17",
     label_color: str = "#4f463d",
 ) -> Path:
+    from PIL import Image, ImageColor, ImageDraw
+
     if not items:
         raise ValueError("Expected at least one image for the preview grid")
 
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    prepared_items: list[tuple[str, Image.Image]] = []
+    prepared_items: list[tuple[str, Any]] = []
     for label, image in items:
         prepared_items.append((label, image.convert("RGBA")))
 
