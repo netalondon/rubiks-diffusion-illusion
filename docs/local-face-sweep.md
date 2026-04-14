@@ -35,6 +35,72 @@ You need:
 
 PyTorch is intentionally **not** listed in `requirements-local-face-sweep.txt`, because the correct wheel depends on your machine and whether you want CUDA or CPU-only.
 
+## Picking A Torch Install
+
+There is no single perfect `torch` package that inspects your exact GPU and always picks the ideal build automatically.
+
+In practice:
+
+- `pip install torch torchvision torchaudio` is the simplest starting point
+- on Linux with an NVIDIA GPU, that often installs a CUDA-enabled build and is usually worth trying first
+- if you want to be explicit, install a specific CUDA wheel instead
+
+The easiest way to decide is:
+
+```bash
+nvidia-smi
+```
+
+If that command works and shows an NVIDIA GPU, you should install a CUDA-enabled PyTorch build.
+
+### For This Machine
+
+For the current local machine, `nvidia-smi` showed:
+
+- NVIDIA driver `581.60`
+- CUDA version `13.0`
+- GPU `NVIDIA RTX 500 Ada Generation`
+
+PyTorch's current official Linux `pip` installer offers CUDA `11.8`, `12.6`, and `12.8` wheels. For this machine, the best explicit choice is:
+
+```bash
+python3 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+```
+
+If you prefer to try the general command first, this is also reasonable:
+
+```bash
+python3 -m pip install torch torchvision torchaudio
+```
+
+Then verify what you got:
+
+```bash
+python3 - <<'PY'
+import torch
+print(torch.__version__)
+print("cuda available:", torch.cuda.is_available())
+print("device:", torch.cuda.get_device_name(0) if torch.cuda.is_available() else "none")
+PY
+```
+
+You want:
+
+- `cuda available: True`
+- your NVIDIA GPU name in the `device:` line
+
+If `torch.cuda.is_available()` is `False`, reinstall using the explicit `cu128` command above.
+
+### CPU-Only Fallback
+
+If you do not have an NVIDIA GPU, you can install a CPU-only build:
+
+```bash
+python3 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+```
+
+That is fine for basic imports and small checks, but the actual face sweep will be extremely slow on CPU.
+
 Suggested setup:
 
 ```bash
@@ -45,9 +111,9 @@ cd /home/netalondon/projects/rubiks-diffusion-illusion
 python3 -m venv .venv
 source .venv/bin/activate
 
-# install a torch build that matches your CUDA / driver setup first
-pip install torch
-pip install -r requirements-local-face-sweep.txt
+# install a torch build that matches your machine first
+python3 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+python3 -m pip install -r requirements-local-face-sweep.txt
 ```
 
 ## Run The Sweep
