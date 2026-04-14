@@ -6,18 +6,14 @@ import shutil
 import sys
 import time
 import traceback
-import webbrowser
-from contextlib import contextmanager
 from datetime import datetime, timezone
-from functools import partial
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from threading import Thread
 from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
 
+from python_bridge.live_preview import optional_viewer_server
 from python_bridge.local_face_sweep import (
     DEFAULT_NEGATIVE_PROMPT,
     DEFAULT_SCRAMBLED_PROMPT,
@@ -38,6 +34,8 @@ DEFAULT_SWEEP_ROOT = REPO_ROOT / "output" / "local-view-count-sweep"
 DEFAULT_RUNS_ROOT = REPO_ROOT / "output" / "local-runs"
 LIVE_DIR_NAME = "live"
 VIEWER_DIR_NAME = "viewer"
+VIEWER_TITLE = "Rubik Local Face Sweep"
+VIEWER_SUBTITLE = "Live status on top, notebook-style preview history below."
 
 
 def parse_args() -> argparse.Namespace:
@@ -214,6 +212,9 @@ def write_live_status(
     extra: dict[str, Any] | None = None,
 ) -> None:
     payload: dict[str, Any] = {
+        "viewer_title": VIEWER_TITLE,
+        "viewer_subtitle": VIEWER_SUBTITLE,
+        "view_count_label": "View Count",
         "phase": phase,
         "message": message,
         "selected_views": selected_views,
@@ -320,35 +321,6 @@ def make_run_dirs(view_count: int, *, sweep_root: Path, runs_root: Path) -> tupl
     return output_root, run_root
 
 
-@contextmanager
-def optional_viewer_server(sweep_root: Path, *, host: str, port: int, enabled: bool, open_viewer: bool):
-    write_live_viewer(sweep_root / VIEWER_DIR_NAME / "index.html")
-    if not enabled:
-        yield None
-        return
-
-    class QuietSimpleHTTPRequestHandler(SimpleHTTPRequestHandler):
-        def log_message(self, format: str, *args: object) -> None:
-            return
-
-    handler = partial(QuietSimpleHTTPRequestHandler, directory=str(sweep_root))
-    server = ThreadingHTTPServer((host, port), handler)
-    thread = Thread(target=server.serve_forever, daemon=True)
-    thread.start()
-
-    viewer_url = f"http://{host}:{port}/{VIEWER_DIR_NAME}/index.html"
-    print(f"Live viewer: {viewer_url}")
-    if open_viewer:
-        webbrowser.open(viewer_url)
-
-    try:
-        yield viewer_url
-    finally:
-        server.shutdown()
-        thread.join(timeout=2)
-        server.server_close()
-
-
 def cleanup_after_run(torch_module: Any) -> None:
     gc.collect()
     if torch_module.cuda.is_available():
@@ -447,6 +419,7 @@ def run_experiment(args: argparse.Namespace) -> None:
         port=args.viewer_port,
         enabled=args.serve_viewer,
         open_viewer=args.open_viewer,
+        viewer_path=f"{VIEWER_DIR_NAME}/index.html",
     ):
         progress_interval = max(1, args.progress_interval)
         write_live_status(
@@ -815,6 +788,7 @@ def serve_existing_viewer(args: argparse.Namespace) -> None:
         port=args.port,
         enabled=True,
         open_viewer=args.open_viewer,
+        viewer_path=f"{VIEWER_DIR_NAME}/index.html",
     ):
         print("Press Ctrl+C to stop the viewer server.")
         try:
