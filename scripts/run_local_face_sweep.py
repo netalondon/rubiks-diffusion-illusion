@@ -22,6 +22,8 @@ from python_bridge.local_face_sweep import (
     DEFAULT_SCRAMBLED_PROMPT,
     DEFAULT_SOLVED_PROMPT,
     DEFAULT_VIEW_GROWTH_ORDER,
+    append_history_entry,
+    reset_live_history,
     save_labeled_image_grid,
     write_json,
     write_live_viewer,
@@ -204,7 +206,6 @@ def write_live_status(
     total_iterations: int | None = None,
     training_preview: str | None = None,
     source_preview: str | None = None,
-    solved_preview: str | None = None,
     scrambled_preview: str | None = None,
     extra: dict[str, Any] | None = None,
 ) -> None:
@@ -219,7 +220,6 @@ def write_live_status(
         "run_root": str(run_root) if run_root else None,
         "training_preview": training_preview,
         "source_preview": source_preview,
-        "solved_preview": solved_preview,
         "scrambled_preview": scrambled_preview,
     }
     if extra:
@@ -285,6 +285,8 @@ def write_preview_images(
 ) -> dict[str, str]:
     preview_dir = run_root / "previews"
     preview_dir.mkdir(parents=True, exist_ok=True)
+    history_dir = live_dir / "history" / run_root.name
+    history_dir.mkdir(parents=True, exist_ok=True)
 
     training_items = [
         (view["name"], tensor_to_pil(rendered_cpu[view["arrangement"]][view["face"]]))
@@ -292,8 +294,10 @@ def write_preview_images(
     ]
     training_snapshot = preview_dir / f"iter-{current_iteration:05d}-training-views.png"
     source_snapshot = preview_dir / f"iter-{current_iteration:05d}-source-faces.png"
-    solved_snapshot = preview_dir / f"iter-{current_iteration:05d}-solved.png"
     scrambled_snapshot = preview_dir / f"iter-{current_iteration:05d}-scrambled.png"
+    history_training = history_dir / f"iter-{current_iteration:05d}-training-views.png"
+    history_source = history_dir / f"iter-{current_iteration:05d}-source-faces.png"
+    history_scrambled = history_dir / f"iter-{current_iteration:05d}-scrambled.png"
 
     save_labeled_image_grid(
         training_items,
@@ -301,26 +305,28 @@ def write_preview_images(
         title=f"{current_view_count} views preview at iter {current_iteration}",
     )
     save_contact_sheet(final_source_faces, source_snapshot)
-    save_contact_sheet({face_id: tensor_to_pil(image) for face_id, image in rendered_cpu["solved"].items()}, solved_snapshot)
     save_contact_sheet(
         {face_id: tensor_to_pil(image) for face_id, image in rendered_cpu["scrambled"].items()},
         scrambled_snapshot,
     )
+    shutil.copy2(training_snapshot, history_training)
+    shutil.copy2(source_snapshot, history_source)
+    shutil.copy2(scrambled_snapshot, history_scrambled)
 
     live_training = live_dir / "training-preview.png"
     live_source = live_dir / "source-preview.png"
-    live_solved = live_dir / "solved-preview.png"
     live_scrambled = live_dir / "scrambled-preview.png"
     shutil.copy2(training_snapshot, live_training)
     shutil.copy2(source_snapshot, live_source)
-    shutil.copy2(solved_snapshot, live_solved)
     shutil.copy2(scrambled_snapshot, live_scrambled)
 
     return {
         "training_preview": live_training.name,
         "source_preview": live_source.name,
-        "solved_preview": live_solved.name,
         "scrambled_preview": live_scrambled.name,
+        "history_training_preview": relative_to_root(history_training, live_dir),
+        "history_source_preview": relative_to_root(history_source, live_dir),
+        "history_scrambled_preview": relative_to_root(history_scrambled, live_dir),
     }
 
 
@@ -401,6 +407,7 @@ def run_experiment(args: argparse.Namespace) -> None:
     runs_root.mkdir(parents=True, exist_ok=True)
     live_dir.mkdir(parents=True, exist_ok=True)
     write_live_viewer(sweep_root / VIEWER_DIR_NAME / "index.html")
+    reset_live_history(live_dir)
 
     print("Stable Diffusion device:", device)
     print("Sweep root:", sweep_root)
@@ -468,6 +475,17 @@ def run_experiment(args: argparse.Namespace) -> None:
 
             print("\n" + "=" * 80)
             print(f"Starting sweep run for {view_count} views:", selected_view_names)
+            append_history_entry(
+                live_dir,
+                {
+                    "entry_type": "run_start",
+                    "title": f"Starting {view_count}-view run",
+                    "message": ", ".join(selected_view_names),
+                    "selected_views": selected_view_names,
+                    "current_view_count": view_count,
+                    "updated_at_utc": utc_timestamp(),
+                },
+            )
 
             write_live_status(
                 live_dir,
@@ -514,7 +532,26 @@ def run_experiment(args: argparse.Namespace) -> None:
                     current_view_count=view_count,
                     current_iteration=0,
                     total_iterations=num_iter,
-                    **preview_paths,
+                    training_preview=preview_paths["training_preview"],
+                    source_preview=preview_paths["source_preview"],
+                    scrambled_preview=preview_paths["scrambled_preview"],
+                )
+                append_history_entry(
+                    live_dir,
+                    {
+                        "entry_type": "preview",
+                        "title": f"{view_count} views · initial preview",
+                        "message": f"Initial preview for the {view_count}-view run.",
+                        "selected_views": selected_view_names,
+                        "current_view_count": view_count,
+                        "current_iteration": 0,
+                        "total_iterations": num_iter,
+                        "updated_at_utc": utc_timestamp(),
+                        "training_preview": preview_paths["history_training_preview"],
+                        "source_preview": preview_paths["history_source_preview"],
+                        "scrambled_preview": preview_paths["history_scrambled_preview"],
+                        "last_sampled_views": [],
+                    },
                 )
 
                 for iter_num in range(num_iter):
@@ -559,7 +596,26 @@ def run_experiment(args: argparse.Namespace) -> None:
                             current_iteration=iter_num + 1,
                             total_iterations=num_iter,
                             extra={"last_sampled_views": last_sampled_names},
-                            **preview_paths,
+                            training_preview=preview_paths["training_preview"],
+                            source_preview=preview_paths["source_preview"],
+                            scrambled_preview=preview_paths["scrambled_preview"],
+                        )
+                        append_history_entry(
+                            live_dir,
+                            {
+                                "entry_type": "preview",
+                                "title": f"{view_count} views · iter {iter_num + 1}",
+                                "message": f"Preview at iteration {iter_num + 1}.",
+                                "selected_views": selected_view_names,
+                                "current_view_count": view_count,
+                                "current_iteration": iter_num + 1,
+                                "total_iterations": num_iter,
+                                "updated_at_utc": utc_timestamp(),
+                                "training_preview": preview_paths["history_training_preview"],
+                                "source_preview": preview_paths["history_source_preview"],
+                                "scrambled_preview": preview_paths["history_scrambled_preview"],
+                                "last_sampled_views": last_sampled_names,
+                            },
                         )
 
                 final_source_batch, final_rendered = get_current_state()
@@ -668,7 +724,20 @@ def run_experiment(args: argparse.Namespace) -> None:
                     current_iteration=num_iter,
                     total_iterations=num_iter,
                     extra={"last_sampled_views": last_sampled_names},
-                    **preview_paths,
+                    training_preview=preview_paths["training_preview"],
+                    source_preview=preview_paths["source_preview"],
+                    scrambled_preview=preview_paths["scrambled_preview"],
+                )
+                append_history_entry(
+                    live_dir,
+                    {
+                        "entry_type": "run_complete",
+                        "title": f"Completed {view_count}-view run",
+                        "message": f"Finished in {metadata['elapsed_seconds']:.1f}s.",
+                        "selected_views": selected_view_names,
+                        "current_view_count": view_count,
+                        "updated_at_utc": utc_timestamp(),
+                    },
                 )
             except Exception as error:
                 result = {
@@ -690,6 +759,17 @@ def run_experiment(args: argparse.Namespace) -> None:
                     run_root=run_root,
                     current_view_count=view_count,
                     extra={"error_type": type(error).__name__, "error_message": str(error)},
+                )
+                append_history_entry(
+                    live_dir,
+                    {
+                        "entry_type": "run_failed",
+                        "title": f"Failed {view_count}-view run",
+                        "message": f"{type(error).__name__}: {error}",
+                        "selected_views": selected_view_names,
+                        "current_view_count": view_count,
+                        "updated_at_utc": utc_timestamp(),
+                    },
                 )
                 print(f"Run failed for {view_count} views: {type(error).__name__}: {error}")
                 if not args.continue_after_failure:
@@ -716,11 +796,23 @@ def run_experiment(args: argparse.Namespace) -> None:
         run_root=None,
         extra={"summary_path": relative_to_root(sweep_summary_path, sweep_root)},
     )
+    append_history_entry(
+        live_dir,
+        {
+            "entry_type": "sweep_complete",
+            "title": "Sweep finished",
+            "message": f"Summary saved to {sweep_summary_path}",
+            "updated_at_utc": utc_timestamp(),
+        },
+    )
 
 
 def serve_existing_viewer(args: argparse.Namespace) -> None:
     sweep_root = Path(args.sweep_root).resolve()
     write_live_viewer(sweep_root / VIEWER_DIR_NAME / "index.html")
+    history_path = sweep_root / LIVE_DIR_NAME / "history.json"
+    if not history_path.exists():
+        write_json(history_path, {"entries": []})
     with optional_viewer_server(
         sweep_root,
         host=args.host,
