@@ -3,7 +3,7 @@
 # Install a machine-appropriate torch build first, then install this file.
 # Example flow:
 #   pip install torch
-#   pip install -r experiments/requirements-local-face-sweep.txt
+#   pip install -r experiments/local-face-sweep/requirements.txt
 
 Pillow>=10.0.0
 diffusers

@@ -15,7 +15,8 @@ from pathlib import Path
 from threading import Thread
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
 
 from python_bridge.local_face_sweep import (
     DEFAULT_NEGATIVE_PROMPT,
@@ -30,7 +31,6 @@ from python_bridge.local_face_sweep import (
 )
 from python_bridge.rubiks_illusion_operator import load_spec, save_contact_sheet
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SPEC_PATH = REPO_ROOT / "public" / "generated" / "rubiks-illusion-spec.json"
 DEFAULT_SOURCE_DIR = REPO_ROOT / "src" / "assets" / "face-art"
 DEFAULT_OFFICIAL_REPO_DIR = REPO_ROOT.parent / "Diffusion-Illusions"
@@ -255,7 +255,7 @@ def import_runtime_modules(repo_root: Path, official_repo_dir: Path) -> dict[str
     except ModuleNotFoundError as error:
         raise ModuleNotFoundError(
             f"Missing runtime dependency: {error.name}. "
-            "Install the local sweep dependencies first. See docs/local-face-sweep.md."
+            "Install the local sweep dependencies first. See experiments/local-face-sweep/README.md."
         ) from error
 
     return {

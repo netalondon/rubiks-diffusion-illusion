@@ -76,7 +76,7 @@ The reduced `128x128` configuration worked and produced noticeably better result
   Hands-off overnight notebook. Starts from the proven `solved:R + scrambled:U` seed pair and sweeps from `3` to `12` target views.
 
 The maintained experiment path is now the local runner documented in
-[`docs/local-face-sweep.md`](./local-face-sweep.md).
+[`experiments/local-face-sweep/README.md`](../experiments/local-face-sweep/README.md).
 
 ## Official Repo Usage
 

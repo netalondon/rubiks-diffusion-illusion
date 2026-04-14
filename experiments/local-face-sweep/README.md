@@ -3,7 +3,7 @@
 This is the current primary workflow for the face sweep.
 
 The original Colab notebook has been archived at
-[`notebooks/archive/rubiks_colab_face_sweep.ipynb`](../notebooks/archive/rubiks_colab_face_sweep.ipynb)
+[`notebooks/archive/rubiks_colab_face_sweep.ipynb`](../../notebooks/archive/rubiks_colab_face_sweep.ipynb)
 for historical reference, but the maintained path is the local script runner.
 
 ## How Progress Displays Locally
@@ -46,9 +46,9 @@ You need:
 - this repo
 - a local checkout of the official Diffusion-Illusions repo
 - a GPU-capable PyTorch install that matches your machine
-- the Python packages in [`experiments/requirements-local-face-sweep.txt`](../experiments/requirements-local-face-sweep.txt)
+- the Python packages in [`requirements.txt`](./requirements.txt)
 
-PyTorch is intentionally **not** listed in `experiments/requirements-local-face-sweep.txt`, because the correct wheel depends on your machine and whether you want CUDA or CPU-only.
+PyTorch is intentionally **not** listed in `requirements.txt`, because the correct wheel depends on your machine and whether you want CUDA or CPU-only.
 
 ## Picking A Torch Install
 
@@ -128,7 +128,7 @@ source .venv/bin/activate
 
 # install a torch build that matches your machine first
 python3 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
-python3 -m pip install -r experiments/requirements-local-face-sweep.txt
+python3 -m pip install -r experiments/local-face-sweep/requirements.txt
 ```
 
 ## Run The Sweep
@@ -137,7 +137,7 @@ python3 -m pip install -r experiments/requirements-local-face-sweep.txt
 cd /home/netalondon/projects/rubiks-diffusion-illusion
 source .venv/bin/activate
 
-python3 experiments/run_local_face_sweep.py run \
+python3 experiments/local-face-sweep/run_local_face_sweep.py run \
   --official-repo-dir /home/netalondon/projects/Diffusion-Illusions
 ```
 
@@ -145,22 +145,22 @@ Useful variants:
 
 ```bash
 # run just one count while testing the setup
-python3 experiments/run_local_face_sweep.py run \
+python3 experiments/local-face-sweep/run_local_face_sweep.py run \
   --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
   --view-counts 3
 
 # preview more often
-python3 experiments/run_local_face_sweep.py run \
+python3 experiments/local-face-sweep/run_local_face_sweep.py run \
   --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
   --display-interval 10
 
 # refresh the terminal iteration line more often
-python3 experiments/run_local_face_sweep.py run \
+python3 experiments/local-face-sweep/run_local_face_sweep.py run \
   --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
   --progress-interval 1
 
 # keep the viewer off if you only want file output
-python3 experiments/run_local_face_sweep.py run \
+python3 experiments/local-face-sweep/run_local_face_sweep.py run \
   --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
   --no-serve-viewer
 ```
@@ -193,13 +193,13 @@ Stable final outputs by count:
 If you already have a sweep root on disk and just want to inspect it again:
 
 ```bash
-python3 experiments/run_local_face_sweep.py serve
+python3 experiments/local-face-sweep/run_local_face_sweep.py serve
 ```
 
 Or point it at a custom root:
 
 ```bash
-python3 experiments/run_local_face_sweep.py serve \
+python3 experiments/local-face-sweep/run_local_face_sweep.py serve \
   --sweep-root /some/other/output/local-view-count-sweep \
   --port 8765
 ```

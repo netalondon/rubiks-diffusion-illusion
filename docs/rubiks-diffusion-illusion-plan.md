@@ -192,4 +192,5 @@ notebooks/archive/rubiks_colab_face_sweep.ipynb
 
 It keeps the memory-safe `128x128` official-like Fourier setup that worked locally, starts from the already-proven `solved:R` + `scrambled:U` seed pair, then runs a hands-off sweep over individual target-view counts `3` through `12`, samples one training view per iteration like the official notebooks, shows previews every `50` iterations, scales the iteration budget as `view_count * 1000`, assigns the same cat watercolor prompt to all solved targets and the same dog watercolor prompt to all scrambled targets, and records both per-run artifacts and a `sweep-summary.json` file so you can see exactly where the setup still succeeds or fails.
 
-The maintained equivalent is the local script runner documented in `docs/local-face-sweep.md`.
+The maintained equivalent is the local script runner documented in
+[`experiments/local-face-sweep/README.md`](../experiments/local-face-sweep/README.md).
