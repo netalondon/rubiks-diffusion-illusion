@@ -1,6 +1,8 @@
 # Rubik's Diffusion Illusion
 
-Tools and experiments for building a Rubik's cube image illusion where the solved cube shows one set of images and the scrambled cube shows another.
+This project is based on [Diffusion Illusions](https://diffusionillusions.com/) and adapts that workflow to a Rubik's cube setting.
+
+The goal is to build a Rubik's cube image illusion where the solved cube shows one set of images and the scrambled cube shows another.
 
 ## What's here
 
