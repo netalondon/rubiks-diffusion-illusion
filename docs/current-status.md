@@ -5,6 +5,7 @@ This file is the short handoff for a fresh Codex thread.
 Use it together with:
 
 - [`docs/rubiks-diffusion-illusion-plan.md`](./rubiks-diffusion-illusion-plan.md)
+- [`docs/diffusion-illusion-technique.md`](./diffusion-illusion-technique.md)
 - [`public/generated/rubiks-illusion-spec.json`](../public/generated/rubiks-illusion-spec.json)
 - [`python_bridge/rubiks_illusion_operator.py`](../python_bridge/rubiks_illusion_operator.py)
 - [`python_bridge/rubiks_illusion_torch.py`](../python_bridge/rubiks_illusion_torch.py)
