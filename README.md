@@ -1,38 +1,40 @@
 # Rubik's Diffusion Illusion
 
-This repo combines a browser-based Rubik's cube viewer, a deterministic tile-remapping pipeline, and Python experiment tooling for diffusion-illusion research.
+Tools and experiments for building a Rubik's cube image illusion where the solved cube shows one set of images and the scrambled cube shows another.
 
-## Project Layout
+## What's here
 
-- `src/`: browser app, cube model/renderer logic, input handling, and UI wiring
-- `scripts/`: TypeScript and Python utilities for exporting specs, searching scrambles, and rendering derived faces
-- `python_bridge/`: reusable Python operators for PIL and torch-based face rendering
-- `tests/`: TypeScript and Python validation
-- `public/generated/`: checked-in generated JSON that the app and scripts consume
-- `experiments/`: notebooks and the local face-sweep workflow
-- `docs/`: current project status and deeper workflow notes
+- `src/`: Vite + Three.js cube viewer and interaction logic
+- `python_bridge/`: PIL and torch renderers used by the optimization workflow
+- `scripts/`: export, scramble-search, and rendering helpers
+- `experiments/`: notebooks and local experiment runs
+- `docs/`: project status and implementation notes
 
-## Common Commands
+## Quick start
 
 ```bash
 npm install
 npm run dev
+```
+
+For checks:
+
+```bash
 npm run typecheck
 npm test
 ```
 
-Useful workflow commands:
+## Useful commands
 
 ```bash
 npm run find:nonadjacent-scramble
-npm run inspect:saved-scramble
 npm run export:rubiks-illusion-spec
 npm run setup:python-bridge
 npm run render:rubiks-illusion-spec
 ```
 
-## Notes
+## Read next
 
-- `npm test` now runs both the TypeScript and Python test suites.
-- The main handoff doc for active project status is [`docs/current-status.md`](./docs/current-status.md).
-- The deeper implementation and experiment context lives in [`docs/rubiks-diffusion-illusion-plan.md`](./docs/rubiks-diffusion-illusion-plan.md).
+- [`docs/current-status.md`](./docs/current-status.md) for the latest handoff
+- [`docs/diffusion-illusion-technique.md`](./docs/diffusion-illusion-technique.md) for the optimization approach
+- [`docs/rubiks-diffusion-illusion-plan.md`](./docs/rubiks-diffusion-illusion-plan.md) for deeper project context
