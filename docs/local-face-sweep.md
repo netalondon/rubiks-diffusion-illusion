@@ -8,7 +8,7 @@ The terminal does **not** try to print images inline.
 
 Instead, the local runner does two things:
 
-- prints text progress in the terminal
+- prints text progress in the terminal, including a frequently refreshed iteration line
 - writes preview PNGs plus `status.json` and `history.json` under `output/local-view-count-sweep/live`
 
 If you start the built-in viewer server, you can watch the latest previews in a browser at:
@@ -28,8 +28,10 @@ Below that it renders a notebook-style timeline:
 
 - each preview snapshot becomes a new row
 - rows are appended downward over time
-- each row shows the training-view grid, the source-face sheet, and the scrambled-face sheet
-- solved faces are intentionally omitted from the timeline because in the current spec they are identical to source faces
+- each row shows only the training-view grid
+- the timeline focuses on that single preview so each snapshot can be larger and easier to compare visually
+
+The built-in viewer server is also quiet by default, so it does not spam one HTTP log line per image refresh.
 
 That gives a notebook-like feedback loop, but through files and a browser instead of notebook cells.
 
@@ -148,6 +150,11 @@ python3 scripts/run_local_face_sweep.py run \
   --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
   --display-interval 10
 
+# refresh the terminal iteration line more often
+python3 scripts/run_local_face_sweep.py run \
+  --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
+  --progress-interval 1
+
 # keep the viewer off if you only want file output
 python3 scripts/run_local_face_sweep.py run \
   --official-repo-dir /home/netalondon/projects/Diffusion-Illusions \
@@ -161,7 +168,7 @@ Shared sweep output:
 - `output/local-view-count-sweep/sweep-summary.json`
 - `output/local-view-count-sweep/live/status.json`
 - `output/local-view-count-sweep/live/history.json`
-- `output/local-view-count-sweep/live/*.png`
+- `output/local-view-count-sweep/live/training-preview.png`
 - `output/local-view-count-sweep/live/history/...`
 - `output/local-view-count-sweep/viewer/index.html`
 
