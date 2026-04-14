@@ -1,7 +1,6 @@
-import { FACE_NORMALS } from './model';
-import type { Cubie, Vec3 } from './model';
-import { FACE_ORDER } from './moves';
+import type { Cubie } from './model';
 import type { Face } from './moves';
+import { createFaceGrid, toFaceCoordinates, toVisibleFace } from './projection';
 
 export type FaceGrid = string[][];
 export type VisibleFaces = Record<Face, FaceGrid>;
@@ -21,7 +20,7 @@ export function projectVisibleFaces(cubies: Cubie[]): VisibleFaces {
 }
 
 export function hasWithinFaceAdjacentColors(faces: VisibleFaces): boolean {
-  return FACE_ORDER.some((face) => faceHasAdjacentColors(faces[face]));
+  return (Object.keys(faces) as Face[]).some((face) => faceHasAdjacentColors(faces[face]));
 }
 
 export function faceHasAdjacentColors(face: FaceGrid): boolean {
@@ -47,43 +46,11 @@ export function faceHasAdjacentColors(face: FaceGrid): boolean {
 
 function createVisibleFaces(): VisibleFaces {
   return {
-    U: createFaceGrid(),
-    D: createFaceGrid(),
-    L: createFaceGrid(),
-    R: createFaceGrid(),
-    F: createFaceGrid(),
-    B: createFaceGrid()
+    U: createFaceGrid(''),
+    D: createFaceGrid(''),
+    L: createFaceGrid(''),
+    R: createFaceGrid(''),
+    F: createFaceGrid(''),
+    B: createFaceGrid('')
   };
-}
-
-function createFaceGrid(): FaceGrid {
-  return Array.from({ length: 3 }, () => ['', '', '']);
-}
-
-function toFaceCoordinates(face: Face, position: Vec3): [number, number] {
-  switch (face) {
-    case 'U':
-      return [position.z + 1, position.x + 1];
-    case 'D':
-      return [1 - position.z, position.x + 1];
-    case 'L':
-      return [1 - position.y, position.z + 1];
-    case 'R':
-      return [1 - position.y, 1 - position.z];
-    case 'F':
-      return [1 - position.y, position.x + 1];
-    case 'B':
-      return [1 - position.y, 1 - position.x];
-  }
-}
-
-function toVisibleFace(normal: Vec3): Face {
-  for (const face of FACE_ORDER) {
-    const expected = FACE_NORMALS[face];
-    if (expected.x === normal.x && expected.y === normal.y && expected.z === normal.z) {
-      return face;
-    }
-  }
-
-  throw new Error(`Unsupported sticker normal: ${JSON.stringify(normal)}`);
 }

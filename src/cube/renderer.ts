@@ -1,8 +1,9 @@
 import * as THREE from 'three';
-import { FACE_NORMALS, FACE_UP_VECTORS } from './model';
+import { FACE_NORMALS } from './model';
 import type { Cubie, Sticker, Vec3 } from './model';
 import type { Face } from './moves';
 import type { FaceArtImages } from './faceArt';
+import { getStickerRotationQuarterTurns } from './projection';
 
 const INTERNAL_COLOR = '#1b1b1b';
 const STICKER_COLOR = '#ffffff';
@@ -77,7 +78,7 @@ export class CubeRenderer {
   }
 
   private getStickerTexture(sticker: Sticker, currentFace: Face): THREE.CanvasTexture {
-    const rotation = getStickerRotationQuarter(sticker, currentFace);
+    const rotation = getStickerRotationQuarterTurns(sticker, currentFace);
     const cacheKey = `${sticker.artFace}:${sticker.row}:${sticker.col}:${rotation}`;
     const existing = this.textureCache.get(cacheKey);
 
@@ -148,32 +149,6 @@ function toWorldPosition(position: Vec3, spacing: number): Vec3 {
 function findStickerForFace(cubie: Cubie, face: Face): Sticker | undefined {
   const normal = FACE_NORMALS[face];
   return cubie.stickers.find((sticker) => vectorsEqual(sticker.normal, normal));
-}
-
-function getStickerRotationQuarter(sticker: Sticker, currentFace: Face): number {
-  const faceUp = FACE_UP_VECTORS[currentFace];
-  const faceRight = cross(faceUp, FACE_NORMALS[currentFace]);
-
-  if (vectorsEqual(sticker.up, faceUp)) return 0;
-  if (vectorsEqual(sticker.up, faceRight)) return 1;
-  if (vectorsEqual(sticker.up, negate(faceUp))) return 2;
-  return 3;
-}
-
-function cross(a: Vec3, b: Vec3): Vec3 {
-  return {
-    x: a.y * b.z - a.z * b.y,
-    y: a.z * b.x - a.x * b.z,
-    z: a.x * b.y - a.y * b.x
-  };
-}
-
-function negate(vector: Vec3): Vec3 {
-  return {
-    x: -vector.x,
-    y: -vector.y,
-    z: -vector.z
-  };
 }
 
 function vectorsEqual(a: Vec3, b: Vec3): boolean {
